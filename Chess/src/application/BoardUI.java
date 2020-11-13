@@ -66,16 +66,7 @@ public class BoardUI {
 		
 		Button saveGame = new Button("Save Game");
 		saveGame.setPrefSize(100, 50);
-		saveGame.setOnAction(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				// save board file here
-				System.out.println("game saved!");
-				// print file save location
-				
-				}
-		});
+		saveGame.setOnAction(arg0 -> System.out.println("game saved!"));
 		
 		Button exitGame = new Button("Exit to Menu");
 		exitGame.setPrefSize(100, 50);
