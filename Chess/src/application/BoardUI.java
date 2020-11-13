@@ -20,16 +20,16 @@ import javafx.stage.Stage;
 
 public class BoardUI {
 
-	public BoardUI(){
+	public BoardUI(Stage primaryStage, Scene mainScene){
 		try {
-			Stage primaryStage=new Stage();
+//			Stage primaryStage = new Stage();
 			BorderPane root = new BorderPane();
 			
 			Label title = new Label("Chess!");
 			title.setFont(new Font("Arial", 40));
 			title.setPadding(new Insets(20, 20, 20, 20));
 			
-			VBox vbox = VboxUI(primaryStage);
+			VBox vbox = VboxUI(primaryStage, mainScene);
 			
 			// placeholder for chessboard
 			
@@ -47,7 +47,7 @@ public class BoardUI {
 			root.setLeft(title);
 			root.setCenter(chessboard);
 			
-			Scene scene = new Scene(root,1920,1080);
+			Scene scene = new Scene(root,1280,720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -60,7 +60,7 @@ public class BoardUI {
 	}
 	
 	// Handle Buttons on right side of UI	
-	private VBox VboxUI(Stage primaryStage) {
+	private VBox VboxUI(Stage primaryStage, Scene mainScene) {
 		
 		VBox vbox = new VBox();
 		
@@ -79,17 +79,7 @@ public class BoardUI {
 		
 		Button exitGame = new Button("Exit to Menu");
 		exitGame.setPrefSize(100, 50);
-		exitGame.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				// exit to main menu here
-				// ask if sure to exit
-				ExitConfirm(primaryStage);
-				
-			}
-			
-		});
+		exitGame.setOnAction(event -> ExitConfirm(primaryStage, mainScene));
 		
 		
 		vbox.setPadding(new Insets(10, 10, 10, 10));
@@ -101,38 +91,28 @@ public class BoardUI {
 	}
 	
 	//Handles Exit Confirmation GUI
-	private void ExitConfirm(Stage primaryStage) {
+	private void ExitConfirm(Stage primaryStage, Scene mainScene) {
 		
 		Stage exitStage = new Stage();
 		
 		Label lbl = new Label("Are you sure you want to exit?");
 		lbl.setFont(new Font ("Arial",18));
 		
+		// Yes Button
 		Button ybtn = new Button ("Yes");
 		ybtn.setPrefSize(50, 30);
-		ybtn.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				// closes exitconfirm
-				
+		ybtn.setOnAction(arg0 -> {		
 				exitStage.close();
-				primaryStage.close();
+				primaryStage.setScene(mainScene);
 				System.out.println("Sucessfully Exited Game");
-				//open main menu
-			}
 		});
 		
+		// No Button
 		Button nbtn = new Button ("No");
 		nbtn.setPrefSize(50, 30);
-		nbtn.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				// closes exitconfirm
+		nbtn.setOnAction(arg0 -> {
 				exitStage.close();	
 				System.out.println("Cancelled Exit Game");
-			}
 		});
 		
 		VBox vbox = new VBox();
@@ -152,6 +132,7 @@ public class BoardUI {
 		
 		exitStage.setScene(exitConfirm);
 		exitStage.show();
+		return;
 	}
 	
 	

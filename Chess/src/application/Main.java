@@ -11,34 +11,32 @@ import javafx.scene.layout.VBox;
 
 public class Main extends Application {
 	
-	public void startGame() {
-		
-	}
-	
-	public void loadGame() {
-		
-	}
-	
-	public void exit() {
-		
-	}
+//	public void startGame() {
+//		
+//	}
+//	
+//	public void loadGame() {
+//		
+//	}
+//	
+//	public void exit() {
+//		
+//	}
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			
 			Label chessLbl = new Label("Chess");
 			
 			// Start Button
 			Button startBtn = new Button("Start Game");
-			startBtn.setOnAction(event ->)
 			
 			// Load Game
 			Button loadBtn = new Button("Load Game");
 			
-			
 			// Exit Program
 			Button exitBtn = new Button("Exit");
-			
 			
 			VBox root = new VBox();
 			root.getChildren().add(chessLbl);
@@ -46,10 +44,15 @@ public class Main extends Application {
 			root.getChildren().add(loadBtn);
 			root.getChildren().add(exitBtn);
 			
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
+			Scene mainScene = new Scene(root,400,400);
+			mainScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(mainScene);
 			primaryStage.show();
+			
+			startBtn.setOnAction(event -> {
+				BoardUI boardUI = new BoardUI(primaryStage, mainScene);
+			});
+			exitBtn.setOnAction(event -> primaryStage.close());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
