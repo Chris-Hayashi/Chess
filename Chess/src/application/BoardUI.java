@@ -72,6 +72,7 @@ public class BoardUI {
 		//Save Game Button 
 		Button saveGame = new Button("Save Game");
 		saveGame.setPrefSize(100, 50);
+
 		saveGame.setOnAction(arg0 ->{
 				// save board file here
 				System.out.println("game saved!");
