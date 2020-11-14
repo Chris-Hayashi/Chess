@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,11 +16,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class BoardUI {
 
+public class BoardUI {
+	public static final int Size = 90;
+	public static final int Board_X = 275; //x-coordinate of board
+	public static final int Board_Y = 100; //y-coordinate of board
+	
 	public BoardUI(Stage primaryStage, Scene mainScene){
 		try {
 
@@ -32,30 +38,39 @@ public class BoardUI {
 			
 			VBox vbox = VboxUI(primaryStage, mainScene);
 			
-			// placeholder for chessboard
-			// Chessboard class should be implemented here
 			
-			InputStream image = new URL("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Chess_Board.svg/768px-Chess_Board.svg.png").openStream();
-			Image tempchessboard = new Image(image);
-			ImageView chessboard = new ImageView(tempchessboard);
+			Group tileGroup = new Group();
 			
-			// For replacing the chessboard image once we have a local directory for images
-			
-			/*
-			FileInputStream inputstream = new FileInputStream("768px-Chess_Board.svg");
-			Image image = new Image(inputstream);
-			ImageView chessboard = new ImageView(image);
-			*/
 			
 			root.setRight(vbox);
 			root.setLeft(title);
-			root.setCenter(chessboard);
+			root.setStyle("-fx-background-color: rgb(211,211,211)");
 			
-			//sets scene to be 1280 x 720p
-			Scene scene = new Scene(root,1280,720);
+			root.getChildren().addAll(tileGroup); //for placing tiles 
+			//root.getChildren().addAll(spriteGroup); //for placing pieces
+			
+			for(int y=0; y<8; y++){ //creating the chess tiles and setting them to root on the pane
+				for(int x=0; x<8; x++){
+					Tiles tile = new Tiles((x + y)%2 == 0, x, y);
+					
+					tileGroup.getChildren().add(tile);
+				}
+			}
+			
+			/*for(int y=0; y<8; y++){ //creating the chess tiles and setting them to root on the pane
+				for(int x=0; x<8; x++){
+					Sprites piece = new Sprites(x, y);
+					
+					spriteGroup.getChildren().add(piece);
+				}
+			}*/
+			
+			//sets scene to be 1280 x 900p
+			Scene scene = new Scene(root,1280,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
 		} 
 		
 		catch(Exception e) {
@@ -63,6 +78,7 @@ public class BoardUI {
 		}
 		
 	}
+
 	
 	// Handle Buttons on right side of UI	
 	private VBox VboxUI(Stage primaryStage, Scene mainScene) {
@@ -91,6 +107,7 @@ public class BoardUI {
 		
 		return vbox;
 	}
+	
 	
 	//Handles Exit Confirmation GUI
 	private void ExitConfirm(Stage primaryStage, Scene mainScene) {
