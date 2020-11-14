@@ -69,7 +69,7 @@ public class Main extends Application {
 			root.setStyle("-fx-background-color: rgb(170,170,170)");
 			
 			
-			Scene mainScene = new Scene(root,400,400);
+			Scene mainScene = new Scene(root,800,800);
 			mainScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(mainScene);
 			primaryStage.show();
