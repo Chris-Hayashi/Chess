@@ -2,6 +2,8 @@ package application;
 	
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -29,58 +31,91 @@ public class Main extends Application {
 			chessLbl.setId("chessLbl");
 			chessLbl.setFont(Font.loadFont("file:resources/fonts/Ondine.ttf", 120));
 			
-//			// Chess Icon
-//			InputStream image = new URL("file: resources/images/chess_icon.jpg").openStream();
-//			Image chessImage= new Image(image);
-//			ImageView chessIcon = new ImageView(chessImage);
-			
-			// Start Button
-			Button startBtn = new Button("Start Game");
-			Button loadBtn = new Button("Load Game");
-			Button exitBtn = new Button("Exit");
-			
-			//Button dimensions
-			startBtn.setPrefSize(300, 75);
-			loadBtn.setPrefSize(300, 75);
-			exitBtn.setPrefSize(300, 75);
-			
-			//Button Fonts
-			startBtn.setFont(new Font("Arial", 24));
-			loadBtn.setFont(new Font("Arial", 24));
-			exitBtn.setFont(new Font("Arial", 24));
+			// Buttons
+			List<Button> buttons = createButtons();
 			
 			//Virtual Box
-			VBox vBox = new VBox();
-			vBox.getChildren().add(startBtn);
-			vBox.getChildren().add(loadBtn);
-			vBox.getChildren().add(exitBtn);
-			vBox.setAlignment(Pos.CENTER);
-			vBox.setSpacing(20);
-			
-			//Insets
-			Insets insets = new Insets(100, 100, 100, 100);
+			VBox vBox = displayVBox(buttons);
 			
 			// Border Pane
-			BorderPane root = new BorderPane();
-			root.setTop(chessLbl);
-			root.setCenter(vBox);
-			root.setMargin(chessLbl, insets);
-			root.setAlignment(chessLbl,Pos.CENTER);
-			root.setStyle("-fx-background-color: rgb(170,170,170)");
+			BorderPane root = setBorderPane(chessLbl, vBox);
 			
-			
+			// Set Scene and Stage
 			Scene mainScene = new Scene(root,800,800);
 			mainScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(mainScene);
 			primaryStage.show();
 			
+			//Event Handlers
+			Button startBtn = buttons.get(0);
+			Button exitBtn = buttons.get(2);
 			startBtn.setOnAction(event -> {
 				BoardUI boardUI = new BoardUI(primaryStage, mainScene);
 			});
 			exitBtn.setOnAction(event -> primaryStage.close());
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private List<Button> createButtons() {
+		// Start Button
+		Button startBtn = new Button("Start Game");
+		Button loadBtn = new Button("Load Game");
+		Button exitBtn = new Button("Exit");
+		
+		//Button dimensions
+		startBtn.setPrefSize(300, 75);
+		loadBtn.setPrefSize(300, 75);
+		exitBtn.setPrefSize(300, 75);
+		
+		//Button Fonts
+		startBtn.setFont(new Font("Arial", 24));
+		loadBtn.setFont(new Font("Arial", 24));
+		exitBtn.setFont(new Font("Arial", 24));
+		
+		//Button List
+		List<Button> buttons = new ArrayList<Button>();
+		buttons.add(startBtn);
+		buttons.add(loadBtn);
+		buttons.add(exitBtn);
+		
+		return buttons;
+	}
+	
+	private VBox displayVBox(List<Button> buttons) {
+		// Create VBox
+		VBox vBox = new VBox();
+		
+		//Add Buttons to VBox
+		for (Button b : buttons) {
+			vBox.getChildren().add(b);
+		}
+		
+		// VBox settings
+		vBox.setAlignment(Pos.CENTER);
+		vBox.setSpacing(20);
+		
+		return vBox;
+	}
+	
+	
+	private BorderPane setBorderPane(Label lbl, VBox vBox) {
+		//BorderPane
+		BorderPane root = new BorderPane();
+		
+		//Insets
+		Insets insets = new Insets(100, 100, 100, 100);
+		
+		// Configure BorderPane
+		root.setTop(lbl);
+		root.setCenter(vBox);
+		root.setMargin(lbl, insets);
+		root.setAlignment(lbl,Pos.CENTER);
+		root.setStyle("-fx-background-color: rgb(170,170,170)");
+		
+		return root;
 	}
 	
 	
