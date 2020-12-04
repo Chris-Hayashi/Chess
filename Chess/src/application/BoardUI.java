@@ -7,12 +7,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,9 +28,17 @@ public class BoardUI {
 	public static final int Board_X = 275; //x-coordinate of board
 	public static final int Board_Y = 100; //y-coordinate of board
 	
+	//Coordinates
+	private int x1 = 0;
+	private int y1 = 0;
+	private int x2 = 0;
+	private int y2 = 0;
+	
+	private Tiles tileClicked = null;
+	
 	public BoardUI(Stage primaryStage, Scene mainScene){
 		try {
-
+			
 			BorderPane root = new BorderPane();
 			
 			//Top Right Title
@@ -49,21 +59,7 @@ public class BoardUI {
 			root.getChildren().addAll(tileGroup); //for placing tiles 
 			//root.getChildren().addAll(spriteGroup); //for placing pieces
 			
-			for(int y=0; y<8; y++){ //creating the chess tiles and setting them to root on the pane
-				for(int x=0; x<8; x++){
-					Tiles tile = new Tiles((x + y)%2 == 0, x, y);
-					
-					tileGroup.getChildren().add(tile);
-				}
-			}
-			
-			/*for(int y=0; y<8; y++){ //creating the chess tiles and setting them to root on the pane
-				for(int x=0; x<8; x++){
-					Sprites piece = new Sprites(x, y);
-					
-					spriteGroup.getChildren().add(piece);
-				}
-			}*/
+			displayTile(tileGroup);
 			
 			//sets scene to be 1280 x 900p
 			Scene scene = new Scene(root,1280,900);
@@ -77,6 +73,49 @@ public class BoardUI {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private void displayTile(Group tileGroup) {
+		for(int y=0; y<8; y++){ //creating the chess tiles and setting them to root on the pane
+			for(int x=0; x<8; x++){
+				Tiles tile = new Tiles((x + y)%2 == 0, x, y);
+				tile.setCursor(Cursor.HAND);
+				
+				tile.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+					
+				//User Selects Tile
+				if(tileClicked==null) {
+					tileClicked = tile;
+					x1=(int)(event.getSceneX()-Board_X)/Size;
+					y1=(int)(event.getSceneY()-Board_Y)/Size;
+					tile.setStrokeWidth(2);
+					tile.setStroke(Color.RED);
+				}
+				
+				//User Un-selects Tile
+				else {
+					tileClicked.setStroke(Color.TRANSPARENT);
+					x2=(int)(event.getSceneX()-Board_X)/Size;
+					y2=(int)(event.getSceneY()-Board_Y)/Size;
+					System.out.println(x1+","+y1);
+					System.out.println(x2+","+y2);
+					//CheckMove(x1,y1,x2,y2,tileClicked,tile);
+					tileClicked = null;
+				}
+				
+				});
+				
+				tileGroup.getChildren().add(tile);
+			}
+		}
+		/*for(int y=0; y<8; y++){ //creating the chess tiles and setting them to root on the pane
+		for(int x=0; x<8; x++){
+			Sprites piece = new Sprites(x, y);
+			
+			spriteGroup.getChildren().add(piece);
+		}
+	}*/
+	
 	}
 
 	
