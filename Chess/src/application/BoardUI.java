@@ -1,5 +1,7 @@
 package application;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -49,16 +51,17 @@ public class BoardUI {
 
 			VBox vbox = VboxUI(primaryStage, mainScene);
 			Group tileGroup = new Group();
-
+			Group spriteGroup = new Group();
+			
 			root.setRight(vbox);
 			root.setLeft(title);
 			root.setStyle("-fx-background-color: rgb(211,211,211)");
 
 			root.getChildren().addAll(tileGroup); // for placing tiles
-			// root.getChildren().addAll(spriteGroup); //for placing pieces
+			root.getChildren().addAll(spriteGroup); //for placing pieces
 
-			displayTile(tileGroup);
-
+			displayTile(tileGroup,spriteGroup);
+			
 			// sets scene to be 1280 x 900p
 			Scene scene = new Scene(root, 1280, 900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -72,7 +75,7 @@ public class BoardUI {
 
 	}
 
-	private void displayTile(Group tileGroup) {
+	private void displayTile(Group tileGroup, Group spriteGroup) {
 
 		// creating the chess tiles and setting them to root on the pane
 		// pawnlayer is for placing the pawns on the board
@@ -101,6 +104,7 @@ public class BoardUI {
 				if (piecelayer) {
 					if (x == 0 || x == 7) {// place rook
 						piece = new Rook(isWhite, x, y);
+						
 					}
 //					else if(x==1||x==6) {//place knight
 //						piece = new Knight(isWhite);
@@ -118,13 +122,21 @@ public class BoardUI {
 //				else if(pawnlayer) {
 //					piece = new Pawn(isWhite);
 //				}
-
+				
+				//test
+				// Displays Image
+				Image image = null;
+				ImageView imageView = new ImageView();
 				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
 				
-				if (tile.getPiece().display() != null)
-					tileGroup.getChildren().add(tile.getPiece().display());
-				// put image here
-				
+				if (tile.getPiece()!= null) {
+					image= new Image(tile.getPiece().display());
+					imageView.setImage(image);
+					imageView.setFitWidth(Size/2);
+					imageView.setX(Board_X+Size*x+Size/4);
+					imageView.setY(Board_Y+Size*y+Size/4);
+					imageView.setPreserveRatio(true);
+				}
 				tile.setCursor(Cursor.HAND);
 				tile.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 				
@@ -151,7 +163,7 @@ public class BoardUI {
 					}
 
 				});
-
+				spriteGroup.getChildren().add(imageView);
 				tileGroup.getChildren().add(tile);
 			}
 
