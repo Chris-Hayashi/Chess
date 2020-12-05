@@ -142,9 +142,9 @@ public class BoardUI {
 				if (tile.getPiece() != null) {
 					image = new Image(tile.getPiece().display());
 					imageView.setImage(image);
-					imageView.setFitWidth(Size / 2);
-					imageView.setX(Board_X + Size * x + Size / 4);
-					imageView.setY(Board_Y + Size * y + Size / 4);
+					imageView.setFitWidth(Size / 1.5);
+					imageView.setX(Board_X + Size * x + Size / 6);
+					imageView.setY(Board_Y + Size * y + Size / 6);
 					imageView.setPreserveRatio(true);
 				}
 				tile.setCursor(Cursor.HAND);
