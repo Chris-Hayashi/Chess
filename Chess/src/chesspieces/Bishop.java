@@ -31,7 +31,7 @@ public class Bishop extends ChessPiece {
 		}
 		return null;
 	}
-	/*
+	
 	public move(Boolean isWhite, int current_x, int current_y, int dest_x, int dest_y){
 		int diagonal = dest_x - current_x;
 		if(dest_x == dest_y && dest_x != current_x){
@@ -41,5 +41,5 @@ public class Bishop extends ChessPiece {
 			//valid
 		}
 	}
-	*/
+	
 }
