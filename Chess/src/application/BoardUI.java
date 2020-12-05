@@ -123,6 +123,7 @@ public class BoardUI {
 //					piece = new Pawn(isWhite);
 //				}
 				
+				//test
 				// Displays Image
 				Image image = null;
 				ImageView imageView = new ImageView();
