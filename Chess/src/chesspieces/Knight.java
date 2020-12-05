@@ -32,4 +32,18 @@ public class Knight extends ChessPiece{
 		}
 		return null;
 	}
+	/*
+	public move(Boolean isWhite, int current_x, int current_y, int dest_x, int dest_y){
+		if(dest_x == current_x + 2 || dest_x == current_x - 2){
+			if(dest_y = current_y + 1 || dest_y == current_y - 1){
+				//valid
+			}
+		}
+		else if(dest_y == current_y + 2 || dest_y == current_y - 2){
+			if(dest_x = current_x + 1 || dest_x == current_x - 1){
+				//valid
+			}
+		}
+	}
+	*/
 }

@@ -97,7 +97,6 @@ public class BoardUI {
 				imageView.setPreserveRatio(true);
 				imageView.setDisable(true);
 
-
 				tile.setCursor(Cursor.HAND);
 				tile.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 					Image imageClicked=null;
@@ -114,6 +113,7 @@ public class BoardUI {
 					// User selects 2nd Tile
 					else if(tileClicked!=null){
 						tileClicked.setStroke(Color.TRANSPARENT);
+						
 						x2 = (int) (event.getSceneX() - Board_X) / Size;
 						y2 = (int) (event.getSceneY() - Board_Y) / Size;
 						System.out.println(x1 + "," + y1);
@@ -122,10 +122,11 @@ public class BoardUI {
 						// move tile 1 piece to tile 2, and delete tile 2 piece
 						// CheckWin...();
 						//replace sprite pieces
+						
 						imageClicked = new Image(tileClicked.getPiece().display());
 						imageView.setImage(imageClicked);
 						//replace tile pieces
-						ChessPiece tempPiece=tileClicked.getPiece();
+						ChessPiece tempPiece = tileClicked.getPiece();
 						tileClicked.setPiece(null);
 						tile.setPiece(tempPiece);
 						tileClicked = null;
@@ -135,18 +136,13 @@ public class BoardUI {
 						x2=-1;
 						y2=-1;	
 					}
+					
 				});
 				spriteGroup.getChildren().add(imageView);
 				tileGroup.getChildren().add(tile);
 			}
 
 		}
-		/*
-		 * for(int y=0; y<8; y++){ //creating the chess tiles and setting them to root
-		 * on the pane for(int x=0; x<8; x++){ Sprites piece = new Sprites(x, y);
-		 * 
-		 * spriteGroup.getChildren().add(piece); } }
-		 */
 	}
 	
 	//Initializes the chess board with each piece in the required positions

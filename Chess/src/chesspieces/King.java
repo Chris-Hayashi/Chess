@@ -31,4 +31,17 @@ public class King extends ChessPiece {
 		}
 		return null;
 	}
+	/*
+	public move(Boolean isWhite, int current_x, int current_y, int dest_x, int dest_y){
+		if(dest_x == current_x + 1 || dest_x == current_x || dest_x == current_x - 1){
+			if(dest_y == current_x + 1 || dest_x == current_y || dest_x == current_y - 1){
+				if(dest_x == current_x && dest_y == current_y){
+					//unselect or invalid
+				}
+				else
+					//valid
+			}
+		}
+	}
+	*/
 }
