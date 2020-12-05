@@ -22,6 +22,7 @@ public abstract class ChessPiece {
 	public Boolean getStraight() {
 		
 	}
+	
 	public int getSq() {
 		
 	}
