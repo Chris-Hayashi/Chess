@@ -1,11 +1,17 @@
 package application;
 
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 
+import chesspieces.Bishop;
 import chesspieces.ChessPiece;
+import chesspieces.King;
+import chesspieces.Knight;
+import chesspieces.Pawn;
+import chesspieces.Queen;
 import chesspieces.Rook;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -52,16 +58,16 @@ public class BoardUI {
 			VBox vbox = VboxUI(primaryStage, mainScene);
 			Group tileGroup = new Group();
 			Group spriteGroup = new Group();
-			
+
 			root.setRight(vbox);
 			root.setLeft(title);
 			root.setStyle("-fx-background-color: rgb(211,211,211)");
 
 			root.getChildren().addAll(tileGroup); // for placing tiles
-			root.getChildren().addAll(spriteGroup); //for placing pieces
+			root.getChildren().addAll(spriteGroup); // for placing pieces
 
-			displayTile(tileGroup,spriteGroup);
-			
+			displayTile(tileGroup, spriteGroup);
+
 			// sets scene to be 1280 x 900p
 			Scene scene = new Scene(root, 1280, 900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -91,8 +97,13 @@ public class BoardUI {
 				else
 					isWhite = false;
 				piecelayer = true;
-			} else if (y == 1 || y == 6)// for determining pawn layers
+			} else if (y == 1 || y == 6){// for determining pawn layers
 				pawnlayer = true;
+				if(y==1)
+					isWhite=false;
+				else
+					isWhite=true;
+			}
 			else {
 				piecelayer = false;
 				pawnlayer = false;
@@ -104,42 +115,41 @@ public class BoardUI {
 				if (piecelayer) {
 					if (x == 0 || x == 7) {// place rook
 						piece = new Rook(isWhite, x, y);
-						
+
+					} else if (x == 1 || x == 6) {// place knight
+						piece = new Knight(isWhite,x,y);
+					} 
+					else if (x == 2 || x == 5) {// place bishop
+						piece = new Bishop(isWhite,x,y);
+					} 
+					else if (x == 3) {// place queen
+						piece = new Queen(isWhite,x,y);
+					} 
+					else if (x == 4) {// place king
+						piece = new King(isWhite,x,y);
 					}
-//					else if(x==1||x==6) {//place knight
-//						piece = new Knight(isWhite);
-//					}
-//					else if(x==2||x==5) {//place bishop
-//						piece = new Bishop(isWhite);
-//					}
-//					else if (x==3) {//place queen
-//						piece = new Queen(isWhite);
-//					}
-//					else if (x==4) {//place king
-//						piece = new King(isWhite);
-//					}
+				} 
+				else if (pawnlayer) {// place pawns
+					piece = new Pawn(isWhite,x,y);
 				}
-//				else if(pawnlayer) {
-//					piece = new Pawn(isWhite);
-//				}
-				
-				//test
+
+				// test
 				// Displays Image
 				Image image = null;
 				ImageView imageView = new ImageView();
 				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
-				
-				if (tile.getPiece()!= null) {
-					image= new Image(tile.getPiece().display());
+
+				if (tile.getPiece() != null) {
+					image = new Image(tile.getPiece().display());
 					imageView.setImage(image);
-					imageView.setFitWidth(Size/2);
-					imageView.setX(Board_X+Size*x+Size/4);
-					imageView.setY(Board_Y+Size*y+Size/4);
+					imageView.setFitWidth(Size / 2);
+					imageView.setX(Board_X + Size * x + Size / 4);
+					imageView.setY(Board_Y + Size * y + Size / 4);
 					imageView.setPreserveRatio(true);
 				}
 				tile.setCursor(Cursor.HAND);
 				tile.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-				
+
 					// User Selects 1st Tile
 					if (tileClicked == null) {
 						tileClicked = tile;

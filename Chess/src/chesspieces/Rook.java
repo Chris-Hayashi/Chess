@@ -38,9 +38,5 @@ public class Rook extends ChessPiece {
 			}
 		}
 		return null;
-//		Image image= new Image(stream);
-//		ImageView imageView = new ImageView();
-//		imageView.setImage(image);
-//		return imageView;
 	}
 }
