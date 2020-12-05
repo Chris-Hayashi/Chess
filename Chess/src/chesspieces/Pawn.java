@@ -1,5 +1,5 @@
 package chesspieces;
 
-public class WhitePawn {
-
+public class Pawn {
+ 
 }
