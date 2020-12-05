@@ -3,6 +3,8 @@ package application;
 import java.io.InputStream;
 import java.net.URL;
 
+import chesspieces.ChessPiece;
+import chesspieces.Rook;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -22,179 +24,220 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-
 public class BoardUI {
 	public static final int Size = 90;
-	public static final int Board_X = 275; //x-coordinate of board
-	public static final int Board_Y = 100; //y-coordinate of board
-	
-	//Coordinates
+	public static final int Board_X = 275; // x-coordinate of board
+	public static final int Board_Y = 100; // y-coordinate of board
+
+	// Coordinates
 	private int x1 = 0;
 	private int y1 = 0;
 	private int x2 = 0;
 	private int y2 = 0;
-	
+
 	private Tiles tileClicked = null;
-	
-	public BoardUI(Stage primaryStage, Scene mainScene){
+
+	public BoardUI(Stage primaryStage, Scene mainScene) {
 		try {
-			
+
 			BorderPane root = new BorderPane();
-			
-			//Top Right Title
+
+			// Top Right Title
 			Label title = new Label("Chess!");
 			title.setFont(new Font("Arial", 40));
 			title.setPadding(new Insets(20, 20, 20, 20));
-			
+
 			VBox vbox = VboxUI(primaryStage, mainScene);
-			
-			
 			Group tileGroup = new Group();
-			
-			
+
 			root.setRight(vbox);
 			root.setLeft(title);
 			root.setStyle("-fx-background-color: rgb(211,211,211)");
-			
-			root.getChildren().addAll(tileGroup); //for placing tiles 
-			//root.getChildren().addAll(spriteGroup); //for placing pieces
-			
+
+			root.getChildren().addAll(tileGroup); // for placing tiles
+			// root.getChildren().addAll(spriteGroup); //for placing pieces
+
 			displayTile(tileGroup);
-			
-			//sets scene to be 1280 x 900p
-			Scene scene = new Scene(root,1280,900);
+
+			// sets scene to be 1280 x 900p
+			Scene scene = new Scene(root, 1280, 900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			
-		} 
-		
-		catch(Exception e) {
+		}
+
+		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-	}
-	
-	private void displayTile(Group tileGroup) {
-		for(int y=0; y<8; y++){ //creating the chess tiles and setting them to root on the pane
-			for(int x=0; x<8; x++){
-				Tiles tile = new Tiles((x + y)%2 == 0, x, y);
-				tile.setCursor(Cursor.HAND);
-				
-				tile.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-					
-				//User Selects Tile
-				if(tileClicked==null) {
-					tileClicked = tile;
-					x1=(int)(event.getSceneX()-Board_X)/Size;
-					y1=(int)(event.getSceneY()-Board_Y)/Size;
-					tile.setStrokeWidth(2);
-					tile.setStroke(Color.RED);
-				}
-				
-				//User Un-selects Tile
-				else {
-					tileClicked.setStroke(Color.TRANSPARENT);
-					x2=(int)(event.getSceneX()-Board_X)/Size;
-					y2=(int)(event.getSceneY()-Board_Y)/Size;
-					System.out.println(x1+","+y1);
-					System.out.println(x2+","+y2);
-					//CheckMove(x1,y1,x2,y2,tileClicked,tile);
-					tileClicked = null;
-				}
-				
-				});
-				
-				tileGroup.getChildren().add(tile);
-			}
-		}
-		/*for(int y=0; y<8; y++){ //creating the chess tiles and setting them to root on the pane
-		for(int x=0; x<8; x++){
-			Sprites piece = new Sprites(x, y);
-			
-			spriteGroup.getChildren().add(piece);
-		}
-	}*/
-	
+
 	}
 
-	
-	// Handle Buttons on right side of UI	
+	private void displayTile(Group tileGroup) {
+
+		// creating the chess tiles and setting them to root on the pane
+		// pawnlayer is for placing the pawns on the board
+		// piecelayer is for placing the pieces other than pawns on the board
+		for (int y = 0; y < 8; y++) {
+			boolean piecelayer = false;
+			boolean pawnlayer = false;
+			boolean isWhite = false;
+
+			if (y == 0 || y == 7) {// for determining piece layers
+				if (y > 5)
+					isWhite = true;
+				else
+					isWhite = false;
+				piecelayer = true;
+			} else if (y == 1 || y == 6)// for determining pawn layers
+				pawnlayer = true;
+			else {
+				piecelayer = false;
+				pawnlayer = false;
+			}
+
+			for (int x = 0; x < 8; x++) {
+
+				ChessPiece piece = null;
+				if (piecelayer) {
+					if (x == 0 || x == 7) {// place rook
+						piece = new Rook(isWhite, x, y);
+					}
+//					else if(x==1||x==6) {//place knight
+//						piece = new Knight(isWhite);
+//					}
+//					else if(x==2||x==5) {//place bishop
+//						piece = new Bishop(isWhite);
+//					}
+//					else if (x==3) {//place queen
+//						piece = new Queen(isWhite);
+//					}
+//					else if (x==4) {//place king
+//						piece = new King(isWhite);
+//					}
+				}
+//				else if(pawnlayer) {
+//					piece = new Pawn(isWhite);
+//				}
+
+				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
+				
+				if (tile.getPiece().display() != null)
+					tileGroup.getChildren().add(tile.getPiece().display());
+				// put image here
+				
+				tile.setCursor(Cursor.HAND);
+				tile.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+				
+					// User Selects 1st Tile
+					if (tileClicked == null) {
+						tileClicked = tile;
+						x1 = (int) (event.getSceneX() - Board_X) / Size;
+						y1 = (int) (event.getSceneY() - Board_Y) / Size;
+						tile.setStrokeWidth(2);
+						tile.setStroke(Color.RED);
+					}
+
+					// User selects 2nd Tile
+					else {
+						tileClicked.setStroke(Color.TRANSPARENT);
+						x2 = (int) (event.getSceneX() - Board_X) / Size;
+						y2 = (int) (event.getSceneY() - Board_Y) / Size;
+						System.out.println(x1 + "," + y1);
+						System.out.println(x2 + "," + y2);
+						// if(CheckMove.isValidMove(x1,y1,x2,y2,tileClicked,tile));
+						// move tile 1 piece to tile 2, and delete tile 2 piece
+						// CheckWin...();
+						tileClicked = null;
+					}
+
+				});
+
+				tileGroup.getChildren().add(tile);
+			}
+
+		}
+		/*
+		 * for(int y=0; y<8; y++){ //creating the chess tiles and setting them to root
+		 * on the pane for(int x=0; x<8; x++){ Sprites piece = new Sprites(x, y);
+		 * 
+		 * spriteGroup.getChildren().add(piece); } }
+		 */
+
+	}
+
+	// Handle Buttons on right side of UI
 	private VBox VboxUI(Stage primaryStage, Scene mainScene) {
-		
+
 		VBox vbox = new VBox();
-		
-		//Save Game Button 
+
+		// Save Game Button
 		Button saveGame = new Button("Save Game");
 		saveGame.setPrefSize(100, 50);
 
-		saveGame.setOnAction(arg0 ->{
-				// save board file here
-				System.out.println("game saved!");
-				// print file save location
+		saveGame.setOnAction(arg0 -> {
+			// save board file here
+			System.out.println("game saved!");
+			// print file save location
 		});
-		
+
 		Button exitGame = new Button("Exit to Menu");
 		exitGame.setPrefSize(100, 50);
 		exitGame.setOnAction(event -> ExitConfirm(primaryStage, mainScene));
 
-		//Vbox Adjustments
+		// Vbox Adjustments
 		vbox.setPadding(new Insets(10, 10, 10, 10));
 		vbox.setSpacing(20);
 		vbox.setAlignment(Pos.BOTTOM_CENTER);
-		vbox.getChildren().addAll(saveGame,exitGame);
-		
+		vbox.getChildren().addAll(saveGame, exitGame);
+
 		return vbox;
 	}
-	
-	
-	//Handles Exit Confirmation GUI
+
+	// Handles Exit Confirmation GUI
 	private void ExitConfirm(Stage primaryStage, Scene mainScene) {
-		
+
 		Stage exitStage = new Stage();
-		
+
 		Label lbl = new Label("Are you sure you want to exit?");
-		lbl.setFont(new Font ("Arial",18));
-		
+		lbl.setFont(new Font("Arial", 18));
+
 		// Yes Button
-		Button ybtn = new Button ("Yes");
+		Button ybtn = new Button("Yes");
 		ybtn.setPrefSize(50, 30);
-		ybtn.setOnAction(arg0 -> {		
-				exitStage.close();
-				primaryStage.setScene(mainScene);
-				System.out.println("Sucessfully Exited Game");
+		ybtn.setOnAction(arg0 -> {
+			exitStage.close();
+			primaryStage.setScene(mainScene);
+			System.out.println("Sucessfully Exited Game");
 		});
-		
+
 		// No Button
-		Button nbtn = new Button ("No");
+		Button nbtn = new Button("No");
 		nbtn.setPrefSize(50, 30);
 		nbtn.setOnAction(arg0 -> {
-				exitStage.close();	
-				System.out.println("Cancelled Exit Game");
+			exitStage.close();
+			System.out.println("Cancelled Exit Game");
 		});
-		
+
 		VBox vbox = new VBox(); // handles label and hbox
 		HBox hbox = new HBox(); // handles buttons
-		
-		//HBox adjustments
+
+		// HBox adjustments
 		hbox.getChildren().add(ybtn);
 		hbox.getChildren().add(nbtn);
 		hbox.setAlignment(Pos.CENTER);
 		hbox.setSpacing(25);
-		
-		//Vbox adjustments
+
+		// Vbox adjustments
 		vbox.getChildren().add(lbl);
 		vbox.getChildren().add(hbox);
 		vbox.setSpacing(20);
 		vbox.setAlignment(Pos.CENTER);
-		
-		
-		Scene exitConfirm = new Scene(vbox,250,100);
-		
+
+		Scene exitConfirm = new Scene(vbox, 250, 100);
+
 		exitStage.setScene(exitConfirm);
 		exitStage.show();
 		return;
 	}
-	
-	
+
 }
