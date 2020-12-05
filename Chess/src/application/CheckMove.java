@@ -5,7 +5,8 @@ public class CheckMove {
 	private Boolean inCheck;
 	
 	public CheckMove() {
-		
+		valid=false;
+		inCheck=false;
 	}
 	
 	private Boolean isValid() {
@@ -13,7 +14,7 @@ public class CheckMove {
 	}
 	
 	private Boolean inCheck() {
-		
+		return inCheck;
 	}
 	
 	public void move() {

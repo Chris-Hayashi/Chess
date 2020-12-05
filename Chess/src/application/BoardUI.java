@@ -1,6 +1,5 @@
 package application;
 
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -38,10 +37,11 @@ public class BoardUI {
 	public static final int Board_Y = 100; // y-coordinate of board
 
 	// Coordinates
-	private int x1 = 0;
-	private int y1 = 0;
-	private int x2 = 0;
-	private int y2 = 0;
+	private int x1 = -1;
+	private int y1 = -1;
+	private int x2 = -1;
+	private int y2 = -1;
+	private CheckMove checkMove = new CheckMove();
 
 	private Tiles tileClicked = null;
 
@@ -73,94 +73,47 @@ public class BoardUI {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-		}
-
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
+	// creating the chess tiles and setting them to root on the pane
 	private void displayTile(Group tileGroup, Group spriteGroup) {
-
-		// creating the chess tiles and setting them to root on the pane
-		// pawnlayer is for placing the pawns on the board
-		// piecelayer is for placing the pieces other than pawns on the board
 		for (int y = 0; y < 8; y++) {
-			boolean piecelayer = false;
-			boolean pawnlayer = false;
-			boolean isWhite = false;
-
-			if (y == 0 || y == 7) {// for determining piece layers
-				if (y > 5)
-					isWhite = true;
-				else
-					isWhite = false;
-				piecelayer = true;
-			} else if (y == 1 || y == 6){// for determining pawn layers
-				pawnlayer = true;
-				if(y==1)
-					isWhite=false;
-				else
-					isWhite=true;
-			}
-			else {
-				piecelayer = false;
-				pawnlayer = false;
-			}
-
-			for (int x = 0; x < 8; x++) {
-
-				ChessPiece piece = null;
-				if (piecelayer) {
-					if (x == 0 || x == 7) {// place rook
-						piece = new Rook(isWhite, x, y);
-
-					} else if (x == 1 || x == 6) {// place knight
-						piece = new Knight(isWhite,x,y);
-					} 
-					else if (x == 2 || x == 5) {// place bishop
-						piece = new Bishop(isWhite,x,y);
-					} 
-					else if (x == 3) {// place queen
-						piece = new Queen(isWhite,x,y);
-					} 
-					else if (x == 4) {// place king
-						piece = new King(isWhite,x,y);
-					}
-				} 
-				else if (pawnlayer) {// place pawns
-					piece = new Pawn(isWhite,x,y);
-				}
-
-				// test
-				// Displays Image
+			for (int x = 0; x < 8; x++) {			
+				ChessPiece piece = piece(x,y);
+				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
+				
+				//Displays Image
 				Image image = null;
 				ImageView imageView = new ImageView();
-				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
-
-				if (tile.getPiece() != null) {
+				if (tile.getPiece() != null) 
 					image = new Image(tile.getPiece().display());
+
 					imageView.setImage(image);
 					imageView.setFitWidth(Size / 1.5);
 					imageView.setX(Board_X + Size * x + Size / 6);
 					imageView.setY(Board_Y + Size * y + Size / 6);
 					imageView.setPreserveRatio(true);
+          imageView.setDisable(true)
 				}
+
 				tile.setCursor(Cursor.HAND);
 				tile.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-
+					Image imageClicked=null;
 					// User Selects 1st Tile
-					if (tileClicked == null) {
+					if (tileClicked == null&&tile.getPiece()!=null) {
 						tileClicked = tile;
+						imageClicked=new Image(tile.getPiece().display());
 						x1 = (int) (event.getSceneX() - Board_X) / Size;
 						y1 = (int) (event.getSceneY() - Board_Y) / Size;
 						tile.setStrokeWidth(2);
 						tile.setStroke(Color.RED);
+						imageView.setImage(null);
 					}
-
 					// User selects 2nd Tile
-					else {
+					else if(tileClicked!=null){
 						tileClicked.setStroke(Color.TRANSPARENT);
 						x2 = (int) (event.getSceneX() - Board_X) / Size;
 						y2 = (int) (event.getSceneY() - Board_Y) / Size;
@@ -169,9 +122,20 @@ public class BoardUI {
 						// if(CheckMove.isValidMove(x1,y1,x2,y2,tileClicked,tile));
 						// move tile 1 piece to tile 2, and delete tile 2 piece
 						// CheckWin...();
+						//replace sprite pieces
+						imageClicked = new Image(tileClicked.getPiece().display());
+						imageView.setImage(imageClicked);
+						//replace tile pieces
+						ChessPiece tempPiece=tileClicked.getPiece();
+						tileClicked.setPiece(null);
+						tile.setPiece(tempPiece);
 						tileClicked = null;
+						//reset coordinates
+						x1=-1;
+						y1=-1;
+						x2=-1;
+						y2=-1;	
 					}
-
 				});
 				spriteGroup.getChildren().add(imageView);
 				tileGroup.getChildren().add(tile);
@@ -184,7 +148,50 @@ public class BoardUI {
 		 * 
 		 * spriteGroup.getChildren().add(piece); } }
 		 */
+	}
+	
+	//Initializes the chess board with each piece in the required positions
+	// pawnlayer is for placing the pawns on the board
+	// piecelayer is for placing the pieces other than pawns on the board
+	private ChessPiece piece(int x, int y) {
+		ChessPiece piece = null;
+		boolean piecelayer = false;
+		boolean pawnlayer = false;
+		boolean isWhite = false;
 
+		if (y == 0 || y == 7) {// for determining piece layers
+			if (y > 5)
+				isWhite = true;
+			else
+				isWhite = false;
+			piecelayer = true;
+		} else if (y == 1 || y == 6) {// for determining pawn layers
+			pawnlayer = true;
+			if (y == 1)
+				isWhite = false;
+			else
+				isWhite = true;
+		} else {
+			piecelayer = false;
+			pawnlayer = false;
+		}
+		if (piecelayer) {
+			if (x == 0 || x == 7) {// place rook
+				piece = new Rook(isWhite, x, y);
+
+			} else if (x == 1 || x == 6) {// place knight
+				piece = new Knight(isWhite, x, y);
+			} else if (x == 2 || x == 5) {// place bishop
+				piece = new Bishop(isWhite, x, y);
+			} else if (x == 3) {// place queen
+				piece = new Queen(isWhite, x, y);
+			} else if (x == 4) {// place king
+				piece = new King(isWhite, x, y);
+			}
+		} else if (pawnlayer) {// place pawns
+			piece = new Pawn(isWhite, x, y);
+		}
+		return piece;
 	}
 
 	// Handle Buttons on right side of UI
