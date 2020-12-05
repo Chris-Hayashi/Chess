@@ -11,7 +11,7 @@ public class Bishop extends ChessPiece {
 	@Override
 	public InputStream display() {
 		InputStream stream;
-		if (isWhite) {
+		if (getWhite()) {
 			// display white rook
 			try {
 				stream = new FileInputStream("resources\\Sprites\\white_bishop.png");
@@ -32,14 +32,22 @@ public class Bishop extends ChessPiece {
 		return null;
 	}
 	
-	public move(Boolean isWhite, int current_x, int current_y, int dest_x, int dest_y){
-		int diagonal = dest_x - current_x;
-		if(dest_x == dest_y && dest_x != current_x){
-			//valid
+	@Override
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y) {
+		int diagonal = dest_x - getX();
+		
+		if ((Math.abs(dest_y - getY()) - Math.abs(dest_x - getX())) == 0) {
+			setX(dest_x);
+			setY(dest_y);
+			return true;
 		}
-		else if(dest_y == current_y - diagonal && dest_y != current_y){
-			//valid
+		else if(dest_y == getY() - diagonal && dest_y != getY()){
+			setX(dest_x);
+			setY(dest_y);
+			return true;
 		}
+		return false;
 	}
+
 	
 }

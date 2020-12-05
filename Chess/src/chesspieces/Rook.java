@@ -11,7 +11,7 @@ public class Rook extends ChessPiece {
 	@Override
 	public InputStream display() {
 		InputStream stream;
-		if (isWhite) {
+		if (getWhite()) {
 			//display white rook
 			try {
 				stream = new FileInputStream("resources\\Sprites\\white_rook.png");
@@ -33,13 +33,18 @@ public class Rook extends ChessPiece {
 		return null;
 	}
 	
-	public move(Boolean isWhite, int current_x, int current_y, int dest_x, int dest_y){
-		if(dest_x == current_x || dest_y != current_y){
-			//valid
+	@Override
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y) {
+		if(dest_x == getX() && dest_y != getY()){
+			setX(dest_x);
+			setY(dest_y);
+			return true;
 		}
-		else if(dest_y == current_y || dest_x != current_x){
-			//valid
+		else if(dest_y == getY() && dest_x != getX()){
+			setX(dest_x);
+			setY(dest_y);
+			return true;
 		}
+		return false;
 	}
-	
 }
