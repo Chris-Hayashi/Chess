@@ -27,6 +27,7 @@ public abstract class ChessPiece {
 //	public int getSq() {
 //		
 //	}
+
 	
 	public void move() {
 		
