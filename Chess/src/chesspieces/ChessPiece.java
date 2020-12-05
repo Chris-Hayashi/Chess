@@ -1,5 +1,7 @@
 package chesspieces;
 
+import java.io.InputStream;
+
 import javafx.scene.image.ImageView;
 
 public abstract class ChessPiece {
@@ -31,5 +33,5 @@ public abstract class ChessPiece {
 	public void move() {
 		
 	}
-	public abstract ImageView display();
+	public abstract InputStream display();
 }
