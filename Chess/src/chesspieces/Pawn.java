@@ -31,8 +31,8 @@ public class Pawn extends ChessPiece {
 		}
 		return null;
 	}
-	/*
-	public move(Boolean isWhite, int current_x, int current_y, int dest_x, int dest_y){
+	
+	public void move(Boolean isWhite, int current_x, int current_y, int dest_x, int dest_y){
 		if(isWhite == true){
 			if(dest_y == current_y + 1){
 				if(dest_x == current_x - 1 || dest_x == current_x + 1){
@@ -48,5 +48,4 @@ public class Pawn extends ChessPiece {
 			}
 		}
 	}
-	*/
 }

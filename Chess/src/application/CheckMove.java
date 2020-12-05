@@ -1,6 +1,8 @@
 package application;
 
-public class CheckMove {
+import chesspieces.ChessPiece;
+
+public abstract class CheckMove {
 	private Boolean valid;
 	private Boolean inCheck;
 	
@@ -9,7 +11,8 @@ public class CheckMove {
 		inCheck=false;
 	}
 	
-	private Boolean isValid() {
+	private Boolean isValid(ChessPiece piece) {
+		
 		return valid;
 	}
 	

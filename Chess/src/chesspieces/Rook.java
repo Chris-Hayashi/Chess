@@ -32,7 +32,7 @@ public class Rook extends ChessPiece {
 		}
 		return null;
 	}
-	/*
+	
 	public move(Boolean isWhite, int current_x, int current_y, int dest_x, int dest_y){
 		if(dest_x == current_x || dest_y != current_y){
 			//valid
@@ -41,5 +41,5 @@ public class Rook extends ChessPiece {
 			//valid
 		}
 	}
-	*/
+	
 }
