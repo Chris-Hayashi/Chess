@@ -41,7 +41,6 @@ public class BoardUI {
 	private int y1 = -1;
 	private int x2 = -1;
 	private int y2 = -1;
-	private CheckMove checkMove = new CheckMove();
 
 	private Tiles tileClicked = null;
 
@@ -80,13 +79,12 @@ public class BoardUI {
 
 	// creating the chess tiles and setting them to root on the pane
 	private void displayTile(Group tileGroup, Group spriteGroup) {
-		CheckMove checkMove = new CheckMove();
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				ChessPiece piece = piece(x,y);
+				ChessPiece piece = piece(x, y);
 				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
 
-				//Displays Image
+				// Displays Image
 				Image image = null;
 				ImageView imageView = new ImageView();
 				if (tile.getPiece() != null)
@@ -100,45 +98,45 @@ public class BoardUI {
 
 				tile.setCursor(Cursor.HAND);
 				tile.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-					Image imageClicked=null;
+					Image imageClicked = null;
 					// User Selects 1st Tile
-					if (tileClicked == null&&tile.getPiece()!=null) {
+					if (tileClicked == null && tile.getPiece() != null) {
 						tileClicked = tile;
-						imageClicked=new Image(tile.getPiece().display());
-						x1 = (int) (event.getSceneX() - Board_X) / Size; //current position of x
-						y1 = (int) (event.getSceneY() - Board_Y) / Size; //current position of y
+						imageClicked = new Image(tile.getPiece().display());
+						x1 = (int) (event.getSceneX() - Board_X) / Size; // current position of x
+						y1 = (int) (event.getSceneY() - Board_Y) / Size; // current position of y
 						tile.setStrokeWidth(2);
 						tile.setStroke(Color.RED);
 						imageView.setImage(null);
 					}
 					// User selects 2nd Tile
-					else if(tileClicked != null ){
+					else if (tileClicked != null) {
 						tileClicked.setStroke(Color.TRANSPARENT);
-						
-						x2 = (int) (event.getSceneX() - Board_X) / Size; //destination of x
-						y2 = (int) (event.getSceneY() - Board_Y) / Size; //destination of y
+
+						x2 = (int) (event.getSceneX() - Board_X) / Size; // destination of x
+						y2 = (int) (event.getSceneY() - Board_Y) / Size; // destination of y
 						System.out.println(x1 + "," + y1);
 						System.out.println(x2 + "," + y2);
-						
-						//piece.move
-						
+
 						// if(CheckMove.isValid(x1,y1,x2,y2,tileClicked,tile));
 						// move tile 1 piece to tile 2, and delete tile 2 piece
 						// CheckWin...();
-						//replace sprite pieces
+						// replace sprite pieces
 
-						imageClicked = new Image(tileClicked.getPiece().display());
-						imageView.setImage(imageClicked);
-						//replace tile pieces
-						ChessPiece tempPiece = tileClicked.getPiece();
-						tileClicked.setPiece(null);
-						tile.setPiece(tempPiece);
+						if (tileClicked.getPiece().move(x2, y2)) {
+							imageClicked = new Image(tileClicked.getPiece().display());
+							imageView.setImage(imageClicked);
+							// replace tile pieces
+							ChessPiece tempPiece = tileClicked.getPiece();
+							tileClicked.setPiece(null);
+							tile.setPiece(tempPiece);	
+						}
 						tileClicked = null;
-						//reset coordinates
-						x1=-1;
-						y1=-1;
-						x2=-1;
-						y2=-1;
+						// reset coordinates
+						x1 = -1;
+						y1 = -1;
+						x2 = -1;
+						y2 = -1;
 					}
 
 				});
@@ -149,7 +147,7 @@ public class BoardUI {
 		}
 	}
 
-	//Initializes the chess board with each piece in the required positions
+	// Initializes the chess board with each piece in the required positions
 	// pawnlayer is for placing the pawns on the board
 	// piecelayer is for placing the pieces other than pawns on the board
 	private ChessPiece piece(int x, int y) {

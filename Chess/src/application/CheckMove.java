@@ -11,10 +11,12 @@ public abstract class CheckMove {
 		inCheck=false;
 	}
 	
-	private Boolean isValid(ChessPiece piece) {
-		
-		return valid;
-	}
+//	private Boolean isValid(ChessPiece piece) {
+//		
+//		return valid;
+//	}
+	
+	public abstract Boolean isValid(ChessPiece piece, int dest_x, int dest_y);
 	
 	private Boolean inCheck() {
 		return inCheck;
