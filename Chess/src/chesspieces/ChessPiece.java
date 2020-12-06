@@ -1,8 +1,10 @@
 package chesspieces;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import application.CheckMove;
+import application.Tiles;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 
@@ -45,8 +47,8 @@ public abstract class ChessPiece extends CheckMove {
 	}
 	
 	// Move Piece
-	public Boolean move(int dest_x, int dest_y, Group tileGroup) {
-		return isValid(this, dest_x, dest_y, tileGroup);
+	public Boolean move(int dest_x, int dest_y, ArrayList<Tiles> tileList) {
+		return isValid(this, dest_x, dest_y, tileList);
 	}
 	public abstract InputStream display();
 }

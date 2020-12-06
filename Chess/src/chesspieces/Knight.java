@@ -2,7 +2,9 @@ package chesspieces;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 
+import application.Tiles;
 import javafx.scene.Group;
 
 public class Knight extends ChessPiece {
@@ -16,7 +18,7 @@ public class Knight extends ChessPiece {
 		if (getWhite()) {
 			// display white rook
 			try {
-				stream = new FileInputStream("resources\\Sprites\\white_knight.png");
+				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/white_knight.png");
 				return stream;
 
 			} catch (Exception e) {
@@ -25,7 +27,7 @@ public class Knight extends ChessPiece {
 		} else {
 			// display black rook
 			try {
-				stream = new FileInputStream("resources\\Sprites\\black_knight.png");
+				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_knight.png");
 				return stream;
 			} catch (Exception e) {
 				System.out.println(e);
@@ -34,7 +36,9 @@ public class Knight extends ChessPiece {
 		return null;
 	}
 
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, Group tileGroup) {
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList) {
+		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
+			return false;
 		if (dest_x == getX() + 2 || dest_x == getX() - 2) {
 			if (dest_y == getY() + 1 || dest_y == getY() - 1) {
 				setX(dest_x);
