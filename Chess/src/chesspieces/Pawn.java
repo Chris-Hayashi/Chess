@@ -2,7 +2,9 @@ package chesspieces;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 
+import application.Tiles;
 import javafx.scene.Group;
 
 public class Pawn extends ChessPiece {
@@ -19,7 +21,7 @@ public class Pawn extends ChessPiece {
 		if (getWhite()) {
 			// display white rook
 			try {
-				stream = new FileInputStream("resources\\Sprites\\white_pawn.png");
+				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/white_pawn.png");
 				return stream;
 
 			} catch (Exception e) {
@@ -28,8 +30,8 @@ public class Pawn extends ChessPiece {
 		} else {
 			// display black rook
 			try {
-//				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_pawn.png");
-				stream = new FileInputStream("resources\\Sprites\\black_pawn.png");
+				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_pawn.png");
+//				stream = new FileInputStream("resources\\Sprites\\black_pawn.png");
 				return stream;
 			} catch (Exception e) {
 				System.out.println(e);
@@ -39,7 +41,9 @@ public class Pawn extends ChessPiece {
 	}
 	
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, Group tileGroup) {
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList) {
+		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
+			return false;
 		if(getWhite() == true) {
 			if((getY() == 6) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX())){
 				setX(dest_x);
@@ -51,9 +55,6 @@ public class Pawn extends ChessPiece {
 					setY(dest_y);
 					return true;
 			}
-			
-			//		if(dest_x == getX() - 1 || dest_x == getX() + 1) {	
-			//	}
 			return false;
 		}
 		else {
@@ -67,8 +68,6 @@ public class Pawn extends ChessPiece {
 					setY(dest_y);
 					return true;
 			}
-			//		if(dest_x == getX() - 1 || dest_x == getX() + 1) {	
-			//	}
 			return false;
 		}
 	}

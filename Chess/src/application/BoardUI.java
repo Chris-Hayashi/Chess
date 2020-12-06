@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 import chesspieces.Bishop;
 import chesspieces.ChessPiece;
 import chesspieces.King;
@@ -70,11 +72,12 @@ public class BoardUI {
 
 	// creating the chess tiles and setting them to root on the pane
 	private void displayTile(Group tileGroup, Group spriteGroup) {
+		ArrayList<Tiles> tileList = new ArrayList<>();
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
 				ChessPiece piece = piece(x, y);
 				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
-
+				tileList.add(tile);
 				// Displays Image
 				Image image = null;
 				ImageView imageView = new ImageView();
@@ -109,7 +112,7 @@ public class BoardUI {
 						System.out.println(x2 + "," + y2);
 
 						// replace sprite pieces
-						if (tileClicked.getPiece().move(x2, y2, tileGroup)) {
+						if (tileClicked.getPiece().move(x2, y2, tileList)) {
 							imageClicked = new Image(tileClicked.getPiece().display());
 							imageView.setImage(imageClicked);
 							// replace tile pieces
@@ -176,62 +179,67 @@ public class BoardUI {
 		return piece;
 	}
 
-	private void checkPath(int destX, int destY, int startX, int startY){
-		int difX = destX - startX;
-		int difY = destY - startY;
-		if(difX != 0){ //left and right
-			if(difX > 0){	//right
-				if(difY > 0){ //right below
-					for(int a = 0; a < Math.abs(difX); a++){
-						//startX + a, startY + a
-						//is (6)(6) == null? else return false
-					}
-				}
-				else if(difY < 0){ //right above
-					for(int a = 0; a < Math.abs(difX); a++){
-						//startX + a, startY - a
-					}
-				}
-				else if(difY == 0){	//right straight
-					for(int a = 0; a < Math.abs(difX); a++){
-						//startX + a, startY
-					}
-				}
-			}
-			else if(difX < 0){	//left
-				if(difY > 0){	//left below
-					for(int a = 0; a < Math.abs(difX); a++){
-						//startX - a, startY + a
-					}
-				}
-				else if(difY < 0){ //left above
-					for(int a = 0; a < Math.abs(difX); a++){
-						//startX - a, startY - a
-					}
-				}
-				else if(difY == 0){ //left straight
-					for(int a = 0; a < Math.abs(difX); a++){
-						//startX - a, startY
-					}
-				}
-			}
-			else if(difX == 0){	//up and down
-				if(difY > 0){ // down straight
-					for(int a = 0; a < Math.abs(difY); a++){
-						//startX, startY + a
-					}
-				}
-				else{ //difY < 0 up straight
-					for(int a = 0; a < Math.abs(difY); a++){
-						//startX, startY - a
-					}
-				}
-			}
-		}
-
-
-
-	}
+//	private Boolean checkPath(int startX, int startY, int destX, int destY, ArrayList<Tiles> tileList){
+//		int difX = destX - startX;
+//		int difY = destY - startY;
+//		if(difX != 0){ //left and right
+//			if(difX > 0){	//right
+//				if(difY > 0){ // Top Left Diagonal
+//					for(int i = 0; i < Math.abs(difX) - 1; i++){
+//						//startX + i, startY + i
+//						Tiles tempTile = tileList.get(i);
+//						if (tempTile.get_X() == startX + i && tempTile.get_Y() == startY + i)
+//							if (tempTile.getPiece() != null)
+//								return true;
+//						//is (6)(6) == null? else return false
+//						return false;
+//					}
+//				}
+//				else if(difY < 0){ //right above
+//					for(int a = 0; a < Math.abs(difX); a++){
+//						//startX + a, startY - a
+//					}
+//				}
+//				else if(difY == 0){	//right straight
+//					for(int a = 0; a < Math.abs(difX); a++){
+//						//startX + a, startY
+//					}
+//				}
+//			}
+//			else if(difX < 0){	//left
+//				if(difY > 0){	//left below
+//					for(int a = 0; a < Math.abs(difX); a++){
+//						//startX - a, startY + a
+//					}
+//				}
+//				else if(difY < 0){ //left above
+//					for(int a = 0; a < Math.abs(difX); a++){
+//						//startX - a, startY - a
+//					}
+//				}
+//				else if(difY == 0){ //left straight
+//					for(int a = 0; a < Math.abs(difX); a++){
+//						//startX - a, startY
+//					}
+//				}
+//			}
+//			else if(difX == 0){	//up and down
+//				if(difY > 0){ // down straight
+//					for(int a = 0; a < Math.abs(difY); a++){
+//						//startX, startY + a
+//					}
+//				}
+//				else{ //difY < 0 up straight
+//					for(int a = 0; a < Math.abs(difY); a++){
+//						//startX, startY - a
+//					}
+//				}
+//			}
+//		}
+//
+//
+//
+//	}
 
 	// Handle Buttons on right side of UI
 	private VBox VboxUI(Stage primaryStage, Scene mainScene) {
