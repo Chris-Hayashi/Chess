@@ -30,34 +30,29 @@ public class BoardUI {
 	public static final int Board_X = 275; // x-coordinate of board
 	public static final int Board_Y = 100; // y-coordinate of board
 
-	// Coordinates of tiles and chess pieces
-//	private int x1 = -1;
-//	private int y1 = -1;
-//	private int x2 = -1;
-//	private int y2 = -1;
-
 	private Tiles tileClicked = null;
+
 	public BoardUI(Stage primaryStage, Scene mainScene) {
 		try {
 			BorderPane root = new BorderPane();
 
-			VBox vbox = VboxUI(primaryStage, mainScene);
+			VBox vbox = vboxUI(primaryStage, mainScene);
 			Group tileGroup = new Group();
 			Group spriteGroup = new Group();
-			
+
 			// Top Left Title
 			Label title = new Label("Chess!");
 			title.setFont(new Font("Arial", 40));
 			title.setPadding(new Insets(20, 20, 20, 20));
-			
+
 			root.setRight(vbox);
 			root.setLeft(title);
 			root.setStyle("-fx-background-color: rgb(211,211,211)");
 
 			root.getChildren().addAll(tileGroup); // for placing tiles
 			root.getChildren().addAll(spriteGroup); // for placing pieces
-			displayTile(tileGroup, spriteGroup,title, primaryStage, mainScene);
-			
+			displayTile(tileGroup, spriteGroup, title, primaryStage, mainScene);
+
 			// sets scene to be 1280 x 900p
 			Scene scene = new Scene(root, 1280, 900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -71,9 +66,10 @@ public class BoardUI {
 	// creating the chess tiles and setting them to root on the pane
 	private void displayTile(Group tileGroup, Group spriteGroup, Label title, Stage primaryStage, Scene mainScene) {
 		ArrayList<Tiles> tileList = new ArrayList<>();
+		PlayerTurn playerTurn = new PlayerTurn();
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				ChessPiece piece = initialboard(x, y, primaryStage, mainScene);
+				ChessPiece piece = initialBoard(x, y, primaryStage, mainScene);
 				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
 				tileList.add(tile);
 				// Displays Image
@@ -86,52 +82,53 @@ public class BoardUI {
 				imageView.setX(Board_X + Size * x + Size / 6);
 				imageView.setY(Board_Y + Size * y + Size / 6);
 				imageView.setPreserveRatio(true);
-				imageView.setDisable(true);//hides image from mouse events
-				
+				imageView.setDisable(true);// hides image from mouse events
+
+				// Mouse Event Handlers for the tile
 				tile.setCursor(Cursor.HAND);
-				tile.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> mouseClicked(e,imageView,tile,tileList));
-				tileGroup.addEventHandler(MouseEvent.MOUSE_CLICKED, e->{
-					if(tile.getPiece()==null)
+				tile.addEventFilter(MouseEvent.MOUSE_CLICKED,
+						e -> mouseClicked(e, imageView, tile, tileList, playerTurn));
+				tileGroup.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+					if (tile.getPiece() == null)
 						imageView.setImage(null);
-					if(tile.isDisabled()){
+					if (tile.isDisabled()) {
 						tileGroup.setDisable(true);
-						title.setText("Game Over!");
-						title.setFont(new Font("Arial",60));
+						title.setFont(new Font("Arial", 60));
+						if (playerTurn.getWhiteTurn())
+							title.setText("Game Over! Black Wins!");
+						else
+							title.setText("Game Over! White Wins!");
 					}
 				});
-				
 				spriteGroup.getChildren().add(imageView);
 				tileGroup.getChildren().add(tile);
 			}
 		}
 	}
-	//Determines what happens when pieces are clicked
-	private void mouseClicked(MouseEvent event,ImageView imageView, Tiles tile, ArrayList<Tiles> tileList) {
+
+	// Determines what happens when pieces are clicked
+	private void mouseClicked(MouseEvent event, ImageView imageView, Tiles tile, ArrayList<Tiles> tileList,
+			PlayerTurn playerTurn) {
 		// Coordinates of tiles and chess pieces
-		int x1=-1;
-		int y1=-1;
-		int x2=-1;
-		int y2=-1;
+		int x2 = -1;
+		int y2 = -1;
 		Image imageClicked = null;
 		// User Selects 1st Tile
-		if (tileClicked == null && tile.getPiece() != null) {
+		if (tileClicked == null && tile.getPiece() != null
+				&& (playerTurn.getWhiteTurn() == tile.getPiece().getWhite())) {
 			tileClicked = tile;
 			imageClicked = new Image(tile.getPiece().display());
-			x1 = (int) (event.getSceneX() - Board_X) / Size; // current position of x
-			y1 = (int) (event.getSceneY() - Board_Y) / Size; // current position of y
 			tile.setStrokeWidth(2);
 			tile.setStroke(Color.RED);
 		}
 		// User selects 2nd Tile
-		else if (tileClicked != null) {
+		else if (tileClicked != null && (playerTurn.getWhiteTurn() == tileClicked.getPiece().getWhite())) {
 			tileClicked.setStroke(Color.TRANSPARENT);
 
 			x2 = (int) (event.getSceneX() - Board_X) / Size; // destination of x
 			y2 = (int) (event.getSceneY() - Board_Y) / Size; // destination of y
-			System.out.println(x1 + "," + y1);
-			System.out.println(x2 + "," + y2);
-			
-			//checks if move is legal
+
+			// checks if move is legal
 			if (tileClicked.getPiece().move(x2, y2, tileList, tile)) {
 				// replace sprite pieces in new location
 				imageClicked = new Image(tileClicked.getPiece().display());
@@ -140,26 +137,21 @@ public class BoardUI {
 				ChessPiece tempPiece = tileClicked.getPiece();
 				tileClicked.setPiece(null);
 				tile.setPiece(tempPiece);
-				//Checkmate condition
-				if(tile.getPiece().countKings(tileList)) {
-					System.out.println("lmao u lost");
+				// Change players' turns
+				playerTurn.setWhiteTurn(!playerTurn.getWhiteTurn());
+				// Checkmate condition
+				if (tile.getPiece().countKings(tileList))
 					tile.setDisable(true);
-				}
 			}
 			tileClicked = null;
-			// reset coordinates
-//			x1 = -1;
-//			y1 = -1;
-//			x2 = -1;
-//			y2 = -1;
 		}
 	}
 
 	// Initializes the chess board with each piece in the required positions
-	private ChessPiece initialboard(int x, int y, Stage primaryStage, Scene mainScene) {
+	private ChessPiece initialBoard(int x, int y, Stage primaryStage, Scene mainScene) {
 		ChessPiece piece = null;
-		boolean piecelayer = false;//placing the pieces other than pawns on the board
-		boolean pawnlayer = false;//placing the pawns on the board
+		boolean piecelayer = false;// placing the pieces other than pawns on the board
+		boolean pawnlayer = false;// placing the pawns on the board
 		boolean isWhite = false;
 
 		if (y == 0 || y == 7) {// for determining piece layers
@@ -197,27 +189,17 @@ public class BoardUI {
 	}
 
 	// Handle Buttons on right side of UI
-	private VBox VboxUI(Stage primaryStage, Scene mainScene) {
+	private VBox vboxUI(Stage primaryStage, Scene mainScene) {
 
 		VBox vbox = new VBox();
-
-		// Save Game Button
-//		Button saveGame = new Button("Save Game");
-//		saveGame.setPrefSize(100, 50);
-//
-//		saveGame.setOnAction(arg0 -> {
-//			// save board file here
-//			System.out.println("game saved!");
-//			// print file save location
-//		});
 
 		// Exit Button
 		Button exitBtn = new Button("Exit to Menu");
 		exitBtn.setPrefSize(100, 50);
-		exitBtn.setOnAction(event -> ExitConfirm(primaryStage, mainScene));
-		
+		exitBtn.setOnAction(event -> exitConfirm(primaryStage, mainScene));
+
 		// Restart Button
-		Button restartBtn = new Button ("Restart Game");
+		Button restartBtn = new Button("Restart Game");
 		restartBtn.setPrefSize(100, 50);
 		restartBtn.setOnAction(event -> {
 			new BoardUI(primaryStage, mainScene);
@@ -234,7 +216,7 @@ public class BoardUI {
 	}
 
 	// Handles Exit Confirmation GUI
-	private void ExitConfirm(Stage primaryStage, Scene mainScene) {
+	private void exitConfirm(Stage primaryStage, Scene mainScene) {
 
 		Stage exitStage = new Stage();
 
@@ -247,7 +229,6 @@ public class BoardUI {
 		ybtn.setOnAction(arg0 -> {
 			exitStage.close();
 			primaryStage.setScene(mainScene);
-			System.out.println("Sucessfully Exited Game");
 		});
 
 		// No Button
@@ -255,7 +236,6 @@ public class BoardUI {
 		nbtn.setPrefSize(50, 30);
 		nbtn.setOnAction(arg0 -> {
 			exitStage.close();
-			System.out.println("Cancelled Exit Game");
 		});
 
 		VBox vbox = new VBox(); // handles label and hbox
