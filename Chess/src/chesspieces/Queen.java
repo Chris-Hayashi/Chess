@@ -17,7 +17,7 @@ public class Queen extends ChessPiece {
 		if (getWhite()) {
 			// display white rook
 			try {
-				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/white_queen.png");
+				stream = new FileInputStream("resources\\Sprites\\white_queen.png");
 				return stream;
 
 			} catch (Exception e) {
@@ -26,7 +26,7 @@ public class Queen extends ChessPiece {
 		} else {
 			// display black rook
 			try {
-				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_queen.png");
+				stream = new FileInputStream("resources\\Sprites\\black_queen.png");
 				return stream;
 			} catch (Exception e) {
 				System.out.println(e);
