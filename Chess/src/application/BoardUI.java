@@ -109,7 +109,7 @@ public class BoardUI {
 						System.out.println(x2 + "," + y2);
 
 						// replace sprite pieces
-						if (tileClicked.getPiece().move(x2, y2)) {
+						if (tileClicked.getPiece().move(x2, y2, tileGroup)) {
 							imageClicked = new Image(tileClicked.getPiece().display());
 							imageView.setImage(imageClicked);
 							// replace tile pieces

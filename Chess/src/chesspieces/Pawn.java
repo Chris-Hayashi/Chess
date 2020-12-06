@@ -3,6 +3,8 @@ package chesspieces;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import javafx.scene.Group;
+
 public class Pawn extends ChessPiece {
 	
 	public Pawn(Boolean isWhite, int x, int y) {
@@ -17,7 +19,7 @@ public class Pawn extends ChessPiece {
 		if (getWhite()) {
 			// display white rook
 			try {
-				stream = new FileInputStream("resources\\Sprites\\white_pawn.png");
+				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/white_pawn.png");
 				return stream;
 
 			} catch (Exception e) {
@@ -26,8 +28,8 @@ public class Pawn extends ChessPiece {
 		} else {
 			// display black rook
 			try {
-//				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_pawn.png");
-				stream = new FileInputStream("resources\\Sprites\\black_pawn.png");
+				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_pawn.png");
+//				stream = new FileInputStream("resources\\Sprites\\black_pawn.png");
 				return stream;
 			} catch (Exception e) {
 				System.out.println(e);
@@ -37,7 +39,7 @@ public class Pawn extends ChessPiece {
 	}
 	
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y) {
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, Group tileGroup) {
 		if(getWhite() == true) {
 			if((getY() == 6) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX())){
 				setX(dest_x);

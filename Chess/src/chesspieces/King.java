@@ -3,6 +3,8 @@ package chesspieces;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import javafx.scene.Group;
+
 public class King extends ChessPiece {
 	public King(Boolean isWhite, int x, int y) {
 		super(isWhite, x, y);
@@ -14,7 +16,7 @@ public class King extends ChessPiece {
 		if (getWhite()) {
 			// display white rook
 			try {
-				stream = new FileInputStream("resources\\Sprites\\white_king.png");
+				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/white_king.png");
 				return stream;
 
 			} catch (Exception e) {
@@ -23,7 +25,7 @@ public class King extends ChessPiece {
 		} else {
 			// display black rook
 			try {
-				stream = new FileInputStream("resources\\Sprites\\black_king.png");
+				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_king.png");
 				return stream;
 			} catch (Exception e) {
 				System.out.println(e);
@@ -32,7 +34,7 @@ public class King extends ChessPiece {
 		return null;
 	}
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y) { 
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, Group tileGroup) { 
 		if(dest_x == getX() + 1 || dest_x == getX() || dest_x == getX() - 1){
 			if(dest_y == getY() + 1 || dest_y == getY() || dest_y == getY() - 1){
 				if(dest_x == getX() && dest_y == getY()){

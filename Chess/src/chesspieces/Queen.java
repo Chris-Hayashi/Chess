@@ -3,6 +3,8 @@ package chesspieces;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import javafx.scene.Group;
+
 public class Queen extends ChessPiece {
 
 	public Queen(Boolean isWhite, int x, int y) {
@@ -15,7 +17,7 @@ public class Queen extends ChessPiece {
 		if (getWhite()) {
 			// display white rook
 			try {
-				stream = new FileInputStream("resources\\Sprites\\white_queen.png");
+				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/white_queen.png");
 				return stream;
 
 			} catch (Exception e) {
@@ -24,7 +26,7 @@ public class Queen extends ChessPiece {
 		} else {
 			// display black rook
 			try {
-				stream = new FileInputStream("resources\\Sprites\\black_queen.png");
+				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_queen.png");
 				return stream;
 			} catch (Exception e) {
 				System.out.println(e);
@@ -35,7 +37,7 @@ public class Queen extends ChessPiece {
 	}
 
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y) {
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, Group tileGroup) {
 		int diagonal = dest_x - getX();
 
 		if ((Math.abs(dest_y - getY()) - Math.abs(dest_x - getX())) == 0) {
