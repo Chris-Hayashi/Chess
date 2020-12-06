@@ -47,8 +47,8 @@ public abstract class ChessPiece extends CheckMove {
 	}
 	
 	// Move Piece
-	public Boolean move(int dest_x, int dest_y, ArrayList<Tiles> tileList) {
-		return isValid(this, dest_x, dest_y, tileList);
+	public Boolean move(int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
+		return isValid(this, dest_x, dest_y, tileList, tile);
 	}
 	public abstract InputStream display();
 }
