@@ -3,6 +3,8 @@ package chesspieces;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import javafx.scene.Group;
+
 public class Rook extends ChessPiece {
 	public Rook(Boolean isWhite, int x, int y) {
 		super(isWhite, x, y);
@@ -34,7 +36,7 @@ public class Rook extends ChessPiece {
 	}
 	
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y) {
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, Group tileGroup) {
 		if(dest_x == getX() && dest_y != getY()){
 			setX(dest_x);
 			setY(dest_y);

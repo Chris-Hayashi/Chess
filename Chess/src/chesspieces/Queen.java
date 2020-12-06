@@ -3,6 +3,8 @@ package chesspieces;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import javafx.scene.Group;
+
 public class Queen extends ChessPiece {
 
 	public Queen(Boolean isWhite, int x, int y) {
@@ -35,7 +37,7 @@ public class Queen extends ChessPiece {
 	}
 
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y) {
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, Group tileGroup) {
 		int diagonal = dest_x - getX();
 
 		if ((Math.abs(dest_y - getY()) - Math.abs(dest_x - getX())) == 0) {

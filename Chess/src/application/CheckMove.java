@@ -1,6 +1,7 @@
 package application;
 
 import chesspieces.ChessPiece;
+import javafx.scene.Group;
 
 public abstract class CheckMove {
 	private Boolean valid;
@@ -16,7 +17,7 @@ public abstract class CheckMove {
 //		return valid;
 //	}
 	
-	public abstract Boolean isValid(ChessPiece piece, int dest_x, int dest_y);
+	public abstract Boolean isValid(ChessPiece piece, int dest_x, int dest_y, Group tileGroup);
 	
 	private Boolean inCheck() {
 		return inCheck;

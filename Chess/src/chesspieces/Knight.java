@@ -3,6 +3,8 @@ package chesspieces;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import javafx.scene.Group;
+
 public class Knight extends ChessPiece {
 	public Knight(Boolean isWhite, int x, int y) {
 		super(isWhite, x, y);
@@ -32,7 +34,7 @@ public class Knight extends ChessPiece {
 		return null;
 	}
 
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y) {
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, Group tileGroup) {
 		if (dest_x == getX() + 2 || dest_x == getX() - 2) {
 			if (dest_y == getY() + 1 || dest_y == getY() - 1) {
 				setX(dest_x);

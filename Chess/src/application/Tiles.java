@@ -6,9 +6,13 @@ import javafx.scene.shape.Rectangle;
 
 public class Tiles extends Rectangle{
 	private ChessPiece piece;
+	private int x;
+	private int y;
 	
 	public Tiles(boolean color, int x, int y,ChessPiece piece){	//creating an individual tile
 		this.piece=piece;
+		this.x = x;
+		this.y = y;
 		setWidth(BoardUI.Size);
 		setHeight(BoardUI.Size);
 		
@@ -22,7 +26,13 @@ public class Tiles extends Rectangle{
 		
 	}
 	
+	public int get_X() {
+		return x;
+	}
 	
+	public int get_Y() {
+		return y;
+	}
 	
 	public void setPiece(ChessPiece piece) {
 		this.piece=piece;
