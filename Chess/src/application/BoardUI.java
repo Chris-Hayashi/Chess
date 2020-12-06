@@ -75,7 +75,7 @@ public class BoardUI {
 		ArrayList<Tiles> tileList = new ArrayList<>();
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				ChessPiece piece = piece(x, y);
+				ChessPiece piece = initialboard(x, y);
 				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
 				tileList.add(tile);
 				// Displays Image
@@ -110,7 +110,7 @@ public class BoardUI {
 						y2 = (int) (event.getSceneY() - Board_Y) / Size; // destination of y
 						System.out.println(x1 + "," + y1);
 						System.out.println(x2 + "," + y2);
-
+						
 						// replace sprite pieces
 						if (tileClicked.getPiece().move(x2, y2, tileList, tile)) {
 							imageClicked = new Image(tileClicked.getPiece().display());
@@ -139,7 +139,7 @@ public class BoardUI {
 	}
 
 	// Initializes the chess board with each piece in the required positions
-	private ChessPiece piece(int x, int y) {
+	private ChessPiece initialboard(int x, int y) {
 		ChessPiece piece = null;
 		boolean piecelayer = false;//placing the pieces other than pawns on the board
 		boolean pawnlayer = false;//placing the pawns on the board

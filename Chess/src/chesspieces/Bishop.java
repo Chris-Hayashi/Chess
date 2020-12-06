@@ -39,6 +39,11 @@ public class Bishop extends ChessPiece {
 	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
 		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
 			return false;
+		if(tile.getPiece()!=null) {
+			if (piece.getWhite()==tile.getPiece().getWhite()){
+				return false;
+			}
+		}
 		int diagonal = dest_x - getX();
 		
 		int tempX = getX();
