@@ -15,7 +15,7 @@ public class King extends ChessPiece {
 	public InputStream display() {
 		InputStream stream;
 		if (getWhite()) {
-			// display white rook
+			// display white King
 			try {
 				stream = new FileInputStream("resources\\Sprites\\white_king.png");
 				return stream;
@@ -24,7 +24,7 @@ public class King extends ChessPiece {
 				System.out.println(e);
 			}
 		} else {
-			// display black rook
+			// display black King
 			try {
 				stream = new FileInputStream("resources\\Sprites\\black_king.png");
 				return stream;
@@ -34,21 +34,23 @@ public class King extends ChessPiece {
 		}
 		return null;
 	}
+
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) { 
-		if(tile.getPiece()!=null) {
-			if (piece.getWhite()==tile.getPiece().getWhite()){
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
+		// if two tiles selected contains the same color piece then move is invalid
+		if (tile.getPiece() != null) {
+			if (piece.getWhite() == tile.getPiece().getWhite()) {
 				return false;
 			}
 		}
 		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
 			return false;
-		if(dest_x == getX() + 1 || dest_x == getX() || dest_x == getX() - 1){
-			if(dest_y == getY() + 1 || dest_y == getY() || dest_y == getY() - 1){
-				if(dest_x == getX() && dest_y == getY()){
+		// checks for moving one tile in any direction
+		if (dest_x == getX() + 1 || dest_x == getX() || dest_x == getX() - 1) {
+			if (dest_y == getY() + 1 || dest_y == getY() || dest_y == getY() - 1) {
+				if (dest_x == getX() && dest_y == getY()) {
 					return false;
-				}
-				else {
+				} else {
 					setX(dest_x);
 					setY(dest_y);
 					return true;

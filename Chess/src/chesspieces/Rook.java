@@ -10,22 +10,21 @@ public class Rook extends ChessPiece {
 	public Rook(Boolean isWhite, int x, int y) {
 		super(isWhite, x, y);
 	}
-	
+
 	@Override
 	public InputStream display() {
 		InputStream stream;
 		if (getWhite()) {
-			//display white rook
+			// display white Rook
 			try {
 				stream = new FileInputStream("resources\\Sprites\\white_rook.png");
-				return stream;		
-				
+				return stream;
+
 			} catch (Exception e) {
 				System.out.println(e);
-			}		
-		}
-		else {
-			//display black rook
+			}
+		} else {
+			// display black Rook
 			try {
 				stream = new FileInputStream("resources\\Sprites\\black_rook.png");
 				return stream;
@@ -35,22 +34,25 @@ public class Rook extends ChessPiece {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
-		if(tile.getPiece()!=null) {
-			if (piece.getWhite()==tile.getPiece().getWhite()){
+		// if two tiles selected contains the same color piece then move is invalid
+		if (tile.getPiece() != null) {
+			if (piece.getWhite() == tile.getPiece().getWhite()) {
 				return false;
 			}
 		}
 		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
 			return false;
-		if(dest_x == getX() && dest_y != getY()){
+		// moving along y axis
+		if (dest_x == getX() && dest_y != getY()) {
 			setX(dest_x);
 			setY(dest_y);
 			return true;
 		}
-		else if(dest_y == getY() && dest_x != getX()){
+		// moving along x axis
+		else if (dest_y == getY() && dest_x != getX()) {
 			setX(dest_x);
 			setY(dest_y);
 			return true;
