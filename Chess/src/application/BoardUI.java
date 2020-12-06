@@ -179,82 +179,20 @@ public class BoardUI {
 		return piece;
 	}
 
-//	private Boolean checkPath(int startX, int startY, int destX, int destY, ArrayList<Tiles> tileList){
-//		int difX = destX - startX;
-//		int difY = destY - startY;
-//		if(difX != 0){ //left and right
-//			if(difX > 0){	//right
-//				if(difY > 0){ // Top Left Diagonal
-//					for(int i = 0; i < Math.abs(difX) - 1; i++){
-//						//startX + i, startY + i
-//						Tiles tempTile = tileList.get(i);
-//						if (tempTile.get_X() == startX + i && tempTile.get_Y() == startY + i)
-//							if (tempTile.getPiece() != null)
-//								return true;
-//						//is (6)(6) == null? else return false
-//						return false;
-//					}
-//				}
-//				else if(difY < 0){ //right above
-//					for(int a = 0; a < Math.abs(difX); a++){
-//						//startX + a, startY - a
-//					}
-//				}
-//				else if(difY == 0){	//right straight
-//					for(int a = 0; a < Math.abs(difX); a++){
-//						//startX + a, startY
-//					}
-//				}
-//			}
-//			else if(difX < 0){	//left
-//				if(difY > 0){	//left below
-//					for(int a = 0; a < Math.abs(difX); a++){
-//						//startX - a, startY + a
-//					}
-//				}
-//				else if(difY < 0){ //left above
-//					for(int a = 0; a < Math.abs(difX); a++){
-//						//startX - a, startY - a
-//					}
-//				}
-//				else if(difY == 0){ //left straight
-//					for(int a = 0; a < Math.abs(difX); a++){
-//						//startX - a, startY
-//					}
-//				}
-//			}
-//			else if(difX == 0){	//up and down
-//				if(difY > 0){ // down straight
-//					for(int a = 0; a < Math.abs(difY); a++){
-//						//startX, startY + a
-//					}
-//				}
-//				else{ //difY < 0 up straight
-//					for(int a = 0; a < Math.abs(difY); a++){
-//						//startX, startY - a
-//					}
-//				}
-//			}
-//		}
-//
-//
-//
-//	}
-
 	// Handle Buttons on right side of UI
 	private VBox VboxUI(Stage primaryStage, Scene mainScene) {
 
 		VBox vbox = new VBox();
 
 		// Save Game Button
-		Button saveGame = new Button("Save Game");
-		saveGame.setPrefSize(100, 50);
-
-		saveGame.setOnAction(arg0 -> {
-			// save board file here
-			System.out.println("game saved!");
-			// print file save location
-		});
+//		Button saveGame = new Button("Save Game");
+//		saveGame.setPrefSize(100, 50);
+//
+//		saveGame.setOnAction(arg0 -> {
+//			// save board file here
+//			System.out.println("game saved!");
+//			// print file save location
+//		});
 
 		Button exitGame = new Button("Exit to Menu");
 		exitGame.setPrefSize(100, 50);

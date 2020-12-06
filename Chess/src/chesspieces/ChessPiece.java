@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 import application.CheckMove;
 import application.Tiles;
-import javafx.scene.Group;
-import javafx.scene.image.ImageView;
 
 public abstract class ChessPiece extends CheckMove {
 	

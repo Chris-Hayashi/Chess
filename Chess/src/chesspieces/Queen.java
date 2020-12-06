@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import application.Tiles;
-import javafx.scene.Group;
 
 public class Queen extends ChessPiece {
 
@@ -40,13 +39,13 @@ public class Queen extends ChessPiece {
 
 	@Override
 	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
-		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
-			return false;
 		if(tile.getPiece()!=null) {
 			if (piece.getWhite()==tile.getPiece().getWhite()){
 				return false;
 			}
 		}
+		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
+			return false;
 		int diagonal = dest_x - getX();
 
 		if ((Math.abs(dest_y - getY()) - Math.abs(dest_x - getX())) == 0) {
