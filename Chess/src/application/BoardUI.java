@@ -1,10 +1,5 @@
 package application;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.URL;
-
 import chesspieces.Bishop;
 import chesspieces.ChessPiece;
 import chesspieces.King;
@@ -12,8 +7,6 @@ import chesspieces.Knight;
 import chesspieces.Pawn;
 import chesspieces.Queen;
 import chesspieces.Rook;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -43,10 +36,8 @@ public class BoardUI {
 	private int y2 = -1;
 
 	private Tiles tileClicked = null;
-
 	public BoardUI(Stage primaryStage, Scene mainScene) {
 		try {
-
 			BorderPane root = new BorderPane();
 
 			// Top Right Title
@@ -94,10 +85,10 @@ public class BoardUI {
 				imageView.setX(Board_X + Size * x + Size / 6);
 				imageView.setY(Board_Y + Size * y + Size / 6);
 				imageView.setPreserveRatio(true);
-				imageView.setDisable(true);
+				imageView.setDisable(true);//hides image from mouse events
 
 				tile.setCursor(Cursor.HAND);
-				tile.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+				tile.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
 					Image imageClicked = null;
 					// User Selects 1st Tile
 					if (tileClicked == null && tile.getPiece() != null) {
@@ -107,7 +98,6 @@ public class BoardUI {
 						y1 = (int) (event.getSceneY() - Board_Y) / Size; // current position of y
 						tile.setStrokeWidth(2);
 						tile.setStroke(Color.RED);
-						imageView.setImage(null);
 					}
 					// User selects 2nd Tile
 					else if (tileClicked != null) {
@@ -118,18 +108,14 @@ public class BoardUI {
 						System.out.println(x1 + "," + y1);
 						System.out.println(x2 + "," + y2);
 
-						// if(CheckMove.isValid(x1,y1,x2,y2,tileClicked,tile));
-						// move tile 1 piece to tile 2, and delete tile 2 piece
-						// CheckWin...();
 						// replace sprite pieces
-
 						if (tileClicked.getPiece().move(x2, y2)) {
 							imageClicked = new Image(tileClicked.getPiece().display());
 							imageView.setImage(imageClicked);
 							// replace tile pieces
 							ChessPiece tempPiece = tileClicked.getPiece();
 							tileClicked.setPiece(null);
-							tile.setPiece(tempPiece);	
+							tile.setPiece(tempPiece);
 						}
 						tileClicked = null;
 						// reset coordinates
@@ -138,22 +124,22 @@ public class BoardUI {
 						x2 = -1;
 						y2 = -1;
 					}
-
+				});
+				tileGroup.addEventHandler(MouseEvent.MOUSE_CLICKED, e->{
+					if(tile.getPiece()==null)
+						imageView.setImage(null);
 				});
 				spriteGroup.getChildren().add(imageView);
 				tileGroup.getChildren().add(tile);
 			}
-
 		}
 	}
 
 	// Initializes the chess board with each piece in the required positions
-	// pawnlayer is for placing the pawns on the board
-	// piecelayer is for placing the pieces other than pawns on the board
 	private ChessPiece piece(int x, int y) {
 		ChessPiece piece = null;
-		boolean piecelayer = false;
-		boolean pawnlayer = false;
+		boolean piecelayer = false;//placing the pieces other than pawns on the board
+		boolean pawnlayer = false;//placing the pawns on the board
 		boolean isWhite = false;
 
 		if (y == 0 || y == 7) {// for determining piece layers
@@ -175,7 +161,6 @@ public class BoardUI {
 		if (piecelayer) {
 			if (x == 0 || x == 7) {// place rook
 				piece = new Rook(isWhite, x, y);
-
 			} else if (x == 1 || x == 6) {// place knight
 				piece = new Knight(isWhite, x, y);
 			} else if (x == 2 || x == 5) {// place bishop
