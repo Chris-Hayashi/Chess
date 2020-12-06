@@ -41,6 +41,11 @@ public class Rook extends ChessPiece {
 	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
 		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
 			return false;
+		if(tile.getPiece()!=null) {
+			if (piece.getWhite()==tile.getPiece().getWhite()){
+				return false;
+			}
+		}
 		if(dest_x == getX() && dest_y != getY()){
 			setX(dest_x);
 			setY(dest_y);

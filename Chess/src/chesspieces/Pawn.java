@@ -41,16 +41,21 @@ public class Pawn extends ChessPiece {
 	}
 	
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tileClicked) {
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
 		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
 			return false;
+		if(tile.getPiece()!=null) {
+			if (piece.getWhite()==tile.getPiece().getWhite()){
+				return false;
+			}
+		}
 		if(getWhite() == true) {
 			if((getY() == 6) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX())){
 				setX(dest_x);
 				setY(dest_y);
 				return true;
 			}
-			else if((dest_y == getY() - 1) && (dest_x == getX() && (tileClicked.getPiece() == null))) {
+			else if((dest_y == getY() - 1) && (dest_x == getX() && (tile.getPiece() == null))) {
 					setX(dest_x);
 					setY(dest_y);
 					return true;
@@ -63,7 +68,7 @@ public class Pawn extends ChessPiece {
 				setY(dest_y);
 				return true;
 			}
-			else if((dest_y == getY() + 1) && (dest_x == getX()) && (tileClicked.getPiece() == null)) {
+			else if((dest_y == getY() + 1) && (dest_x == getX()) && (tile.getPiece() == null)) {
 					setX(dest_x);
 					setY(dest_y);
 					return true;

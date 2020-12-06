@@ -25,9 +25,7 @@ public abstract class CheckMove {
 		return inCheck;
 	}
 
-//	public void move() {
-//		
-//	}
+	
 
 	public Boolean checkPath(int startX, int startY, int destX, int destY, ArrayList<Tiles> tileList) {
 		int difX = destX - startX;
