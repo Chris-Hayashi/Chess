@@ -16,7 +16,6 @@ public class Bishop extends ChessPiece {
 			try {
 				stream = new FileInputStream("resources\\Sprites\\white_bishop.png");
 				return stream;
-
 			} catch (Exception e) {
 				System.out.println(e);
 			}
