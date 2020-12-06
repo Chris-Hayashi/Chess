@@ -176,6 +176,63 @@ public class BoardUI {
 		return piece;
 	}
 
+	private void checkPath(int destX, int destY, int startX, int startY){
+		int difX = destX - startX;
+		int difY = destY - startY;
+		if(difX != 0){ //left and right
+			if(difX > 0){	//right
+				if(difY > 0){ //right below
+					for(int a = 0; a < Math.abs(difX); a++){
+						//startX + a, startY + a
+						//is (6)(6) == null? else return false
+					}
+				}
+				else if(difY < 0){ //right above
+					for(int a = 0; a < Math.abs(difX); a++){
+						//startX + a, startY - a
+					}
+				}
+				else if(difY == 0){	//right straight
+					for(int a = 0; a < Math.abs(difX); a++){
+						//startX + a, startY
+					}
+				}
+			}
+			else if(difX < 0){	//left
+				if(difY > 0){	//left below
+					for(int a = 0; a < Math.abs(difX); a++){
+						//startX - a, startY + a
+					}
+				}
+				else if(difY < 0){ //left above
+					for(int a = 0; a < Math.abs(difX); a++){
+						//startX - a, startY - a
+					}
+				}
+				else if(difY == 0){ //left straight
+					for(int a = 0; a < Math.abs(difX); a++){
+						//startX - a, startY
+					}
+				}
+			}
+			else if(difX == 0){	//up and down
+				if(difY > 0){ // down straight
+					for(int a = 0; a < Math.abs(difY); a++){
+						//startX, startY + a
+					}
+				}
+				else{ //difY < 0 up straight
+					for(int a = 0; a < Math.abs(difY); a++){
+						//startX, startY - a
+					}
+				}
+			}
+		}
+
+
+
+	}
+
 	// Handle Buttons on right side of UI
 	private VBox VboxUI(Stage primaryStage, Scene mainScene) {
 
