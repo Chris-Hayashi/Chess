@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import application.Tiles;
-import javafx.scene.Group;
 
 public class Knight extends ChessPiece {
 	public Knight(Boolean isWhite, int x, int y) {
@@ -16,7 +15,7 @@ public class Knight extends ChessPiece {
 	public InputStream display() {
 		InputStream stream;
 		if (getWhite()) {
-			// display white rook
+			// display white Knight
 			try {
 				stream = new FileInputStream("resources\\Sprites\\white_knight.png");
 				return stream;
@@ -25,7 +24,7 @@ public class Knight extends ChessPiece {
 				System.out.println(e);
 			}
 		} else {
-			// display black rook
+			// display black Knight
 			try {
 				stream = new FileInputStream("resources\\Sprites\\black_knight.png");
 				return stream;
@@ -37,8 +36,9 @@ public class Knight extends ChessPiece {
 	}
 
 	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
-		if(tile.getPiece()!=null) {
-			if (piece.getWhite()==tile.getPiece().getWhite()){
+		// if two tiles selected contains the same color piece then move is invalid
+		if (tile.getPiece() != null) {
+			if (piece.getWhite() == tile.getPiece().getWhite()) {
 				return false;
 			}
 		}
