@@ -1,7 +1,6 @@
 package application;
 
 import java.util.ArrayList;
-
 import chesspieces.Bishop;
 import chesspieces.ChessPiece;
 import chesspieces.King;
@@ -31,35 +30,34 @@ public class BoardUI {
 	public static final int Board_X = 275; // x-coordinate of board
 	public static final int Board_Y = 100; // y-coordinate of board
 
-	// Coordinates
-	private int x1 = -1;
-	private int y1 = -1;
-	private int x2 = -1;
-	private int y2 = -1;
+	// Coordinates of tiles and chess pieces
+//	private int x1 = -1;
+//	private int y1 = -1;
+//	private int x2 = -1;
+//	private int y2 = -1;
 
 	private Tiles tileClicked = null;
 	public BoardUI(Stage primaryStage, Scene mainScene) {
 		try {
 			BorderPane root = new BorderPane();
 
-			// Top Right Title
-			Label title = new Label("Chess!");
-			title.setFont(new Font("Arial", 40));
-			title.setPadding(new Insets(20, 20, 20, 20));
-
 			VBox vbox = VboxUI(primaryStage, mainScene);
 			Group tileGroup = new Group();
 			Group spriteGroup = new Group();
-
+			
+			// Top Left Title
+			Label title = new Label("Chess!");
+			title.setFont(new Font("Arial", 40));
+			title.setPadding(new Insets(20, 20, 20, 20));
+			
 			root.setRight(vbox);
 			root.setLeft(title);
 			root.setStyle("-fx-background-color: rgb(211,211,211)");
 
 			root.getChildren().addAll(tileGroup); // for placing tiles
 			root.getChildren().addAll(spriteGroup); // for placing pieces
-
-			displayTile(tileGroup, spriteGroup);
-
+			displayTile(tileGroup, spriteGroup,title);
+			
 			// sets scene to be 1280 x 900p
 			Scene scene = new Scene(root, 1280, 900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -71,7 +69,7 @@ public class BoardUI {
 	}
 
 	// creating the chess tiles and setting them to root on the pane
-	private void displayTile(Group tileGroup, Group spriteGroup) {
+	private void displayTile(Group tileGroup, Group spriteGroup, Label title) {
 		ArrayList<Tiles> tileList = new ArrayList<>();
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
@@ -89,52 +87,71 @@ public class BoardUI {
 				imageView.setY(Board_Y + Size * y + Size / 6);
 				imageView.setPreserveRatio(true);
 				imageView.setDisable(true);//hides image from mouse events
-
+				
 				tile.setCursor(Cursor.HAND);
-				tile.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-					Image imageClicked = null;
-					// User Selects 1st Tile
-					if (tileClicked == null && tile.getPiece() != null) {
-						tileClicked = tile;
-						imageClicked = new Image(tile.getPiece().display());
-						x1 = (int) (event.getSceneX() - Board_X) / Size; // current position of x
-						y1 = (int) (event.getSceneY() - Board_Y) / Size; // current position of y
-						tile.setStrokeWidth(2);
-						tile.setStroke(Color.RED);
-					}
-					// User selects 2nd Tile
-					else if (tileClicked != null) {
-						tileClicked.setStroke(Color.TRANSPARENT);
-
-						x2 = (int) (event.getSceneX() - Board_X) / Size; // destination of x
-						y2 = (int) (event.getSceneY() - Board_Y) / Size; // destination of y
-						System.out.println(x1 + "," + y1);
-						System.out.println(x2 + "," + y2);
-						
-						// replace sprite pieces
-						if (tileClicked.getPiece().move(x2, y2, tileList, tile)) {
-							imageClicked = new Image(tileClicked.getPiece().display());
-							imageView.setImage(imageClicked);
-							// replace tile pieces
-							ChessPiece tempPiece = tileClicked.getPiece();
-							tileClicked.setPiece(null);
-							tile.setPiece(tempPiece);
-						}
-						tileClicked = null;
-						// reset coordinates
-						x1 = -1;
-						y1 = -1;
-						x2 = -1;
-						y2 = -1;
-					}
-				});
+				tile.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> mouseClicked(e,imageView,tile,tileList));
 				tileGroup.addEventHandler(MouseEvent.MOUSE_CLICKED, e->{
 					if(tile.getPiece()==null)
 						imageView.setImage(null);
+					if(tile.isDisabled()){
+						tileGroup.setDisable(true);
+						title.setText("Game Over!");
+						title.setFont(new Font("Arial",60));
+					}
 				});
+				
 				spriteGroup.getChildren().add(imageView);
 				tileGroup.getChildren().add(tile);
 			}
+		}
+	}
+	//Determines what happens when pieces are clicked
+	private void mouseClicked(MouseEvent event,ImageView imageView, Tiles tile, ArrayList<Tiles> tileList) {
+		// Coordinates of tiles and chess pieces
+		int x1=-1;
+		int y1=-1;
+		int x2=-1;
+		int y2=-1;
+		Image imageClicked = null;
+		// User Selects 1st Tile
+		if (tileClicked == null && tile.getPiece() != null) {
+			tileClicked = tile;
+			imageClicked = new Image(tile.getPiece().display());
+			x1 = (int) (event.getSceneX() - Board_X) / Size; // current position of x
+			y1 = (int) (event.getSceneY() - Board_Y) / Size; // current position of y
+			tile.setStrokeWidth(2);
+			tile.setStroke(Color.RED);
+		}
+		// User selects 2nd Tile
+		else if (tileClicked != null) {
+			tileClicked.setStroke(Color.TRANSPARENT);
+
+			x2 = (int) (event.getSceneX() - Board_X) / Size; // destination of x
+			y2 = (int) (event.getSceneY() - Board_Y) / Size; // destination of y
+			System.out.println(x1 + "," + y1);
+			System.out.println(x2 + "," + y2);
+			
+			//checks if move is legal
+			if (tileClicked.getPiece().move(x2, y2, tileList, tile)) {
+				// replace sprite pieces in new location
+				imageClicked = new Image(tileClicked.getPiece().display());
+				imageView.setImage(imageClicked);
+				// replace tile pieces in new location
+				ChessPiece tempPiece = tileClicked.getPiece();
+				tileClicked.setPiece(null);
+				tile.setPiece(tempPiece);
+				//Checkmate condition
+				if(tile.getPiece().countKings(tileList)) {
+					System.out.println("lmao u lost");
+					tile.setDisable(true);
+				}
+			}
+			tileClicked = null;
+			// reset coordinates
+//			x1 = -1;
+//			y1 = -1;
+//			x2 = -1;
+//			y2 = -1;
 		}
 	}
 
@@ -202,7 +219,7 @@ public class BoardUI {
 		vbox.setPadding(new Insets(10, 10, 10, 10));
 		vbox.setSpacing(20);
 		vbox.setAlignment(Pos.BOTTOM_CENTER);
-		vbox.getChildren().addAll(saveGame, exitGame);
+		vbox.getChildren().addAll(exitGame);
 
 		return vbox;
 	}

@@ -44,9 +44,19 @@ public abstract class ChessPiece extends CheckMove {
 		this.current_y = dest_y;
 	}
 	
+	public Boolean countKings(ArrayList<Tiles> tileList) {
+		int counter=0;
+		for (Tiles tile : tileList) {
+			if((tile.getPiece()!=null) && 
+					(tile.getPiece().getClass() == King.class))
+				++counter;
+		}
+		return counter==1;
+	}
+	
 	// Move Piece
 	public Boolean move(int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
-		return isValid(this, dest_x, dest_y, tileList, tile);
+			return isValid(this, dest_x, dest_y, tileList, tile);
 	}
 	public abstract InputStream display();
 }

@@ -55,6 +55,7 @@ public class Main extends Application {
 			Button startBtn = buttons.get(0);
 			Button exitBtn = buttons.get(1);
 			startBtn.setOnAction(event -> {
+				@SuppressWarnings("unused")
 				BoardUI boardUI = new BoardUI(primaryStage, mainScene);
 			});
 			exitBtn.setOnAction(event -> primaryStage.close());
@@ -118,8 +119,8 @@ public class Main extends Application {
 		// Configure BorderPane
 		root.setTop(lbl);
 		root.setCenter(vBox);
-		root.setMargin(lbl, insets);
-		root.setAlignment(lbl,Pos.CENTER);
+		BorderPane.setMargin(lbl, insets);
+		BorderPane.setAlignment(lbl,Pos.CENTER);
 		root.setStyle("-fx-background-color: rgb(170,170,170)");
 		
 		return root;
