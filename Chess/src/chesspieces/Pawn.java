@@ -47,11 +47,11 @@ public class Pawn extends ChessPiece {
 		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
 			return false;
 
+
 		// conditions for white piece
 		if (getWhite() == true) {
 			// initial position
 			if ((getY() == 6) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX()) && (tile.getPiece() == null)) {
-
 				setX(dest_x);
 				setY(dest_y);
 				return true;
@@ -75,9 +75,9 @@ public class Pawn extends ChessPiece {
 		}
 		// conditions for black piece
 		else {
+
 			// initial position
 			if ((getY() == 1) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX()) && (tile.getPiece() == null)) {
-
 				setX(dest_x);
 				setY(dest_y);
 				return true;
