@@ -71,6 +71,7 @@ public class BoardUI {
 	// creating the chess tiles and setting them to root on the pane
 	private void displayTile(Group tileGroup, Group spriteGroup, Label title, Stage primaryStage, Scene mainScene) {
 		ArrayList<Tiles> tileList = new ArrayList<>();
+		PlayerTurn playerTurn = new PlayerTurn();
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
 				ChessPiece piece = initialboard(x, y, primaryStage, mainScene);
@@ -89,7 +90,7 @@ public class BoardUI {
 				imageView.setDisable(true);//hides image from mouse events
 				
 				tile.setCursor(Cursor.HAND);
-				tile.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> mouseClicked(e,imageView,tile,tileList));
+				tile.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> mouseClicked(e,imageView,tile,tileList, playerTurn));
 				tileGroup.addEventHandler(MouseEvent.MOUSE_CLICKED, e->{
 					if(tile.getPiece()==null)
 						imageView.setImage(null);
@@ -106,7 +107,8 @@ public class BoardUI {
 		}
 	}
 	//Determines what happens when pieces are clicked
-	private void mouseClicked(MouseEvent event,ImageView imageView, Tiles tile, ArrayList<Tiles> tileList) {
+	private void mouseClicked(MouseEvent event,ImageView imageView, Tiles tile, ArrayList<Tiles> tileList, PlayerTurn playerTurn) {
+//		PlayerTurn playerTurn = new PlayerTurn();
 		// Coordinates of tiles and chess pieces
 		int x1=-1;
 		int y1=-1;
@@ -114,7 +116,7 @@ public class BoardUI {
 		int y2=-1;
 		Image imageClicked = null;
 		// User Selects 1st Tile
-		if (tileClicked == null && tile.getPiece() != null) {
+		if (tileClicked == null && tile.getPiece() != null && (playerTurn.getWhiteTurn() == tile.getPiece().getWhite())) {
 			tileClicked = tile;
 			imageClicked = new Image(tile.getPiece().display());
 			x1 = (int) (event.getSceneX() - Board_X) / Size; // current position of x
@@ -123,7 +125,7 @@ public class BoardUI {
 			tile.setStroke(Color.RED);
 		}
 		// User selects 2nd Tile
-		else if (tileClicked != null) {
+		else if (tileClicked != null && (playerTurn.getWhiteTurn() == tileClicked.getPiece().getWhite())) {
 			tileClicked.setStroke(Color.TRANSPARENT);
 
 			x2 = (int) (event.getSceneX() - Board_X) / Size; // destination of x
@@ -140,6 +142,10 @@ public class BoardUI {
 				ChessPiece tempPiece = tileClicked.getPiece();
 				tileClicked.setPiece(null);
 				tile.setPiece(tempPiece);
+				// Change players' turns
+				playerTurn.setWhiteTurn(
+					!playerTurn.getWhiteTurn()
+				);
 				//Checkmate condition
 				if(tile.getPiece().countKings(tileList)) {
 					System.out.println("lmao u lost");
@@ -147,11 +153,6 @@ public class BoardUI {
 				}
 			}
 			tileClicked = null;
-			// reset coordinates
-//			x1 = -1;
-//			y1 = -1;
-//			x2 = -1;
-//			y2 = -1;
 		}
 	}
 
