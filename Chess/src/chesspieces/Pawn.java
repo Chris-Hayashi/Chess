@@ -39,7 +39,7 @@ public class Pawn extends ChessPiece {
 	@Override
 	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y) {
 		if(getWhite() == true) {
-			if((getY() == 6) && (Math.abs(dest_y - getY()) == 2)){
+			if((getY() == 6) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX())){
 				setX(dest_x);
 				setY(dest_y);
 				return true;
@@ -55,7 +55,7 @@ public class Pawn extends ChessPiece {
 			return false;
 		}
 		else {
-			if((getY() == 1) && (Math.abs(dest_y - getY()) == 2)){
+			if((getY() == 1) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX())){
 				setX(dest_x);
 				setY(dest_y);
 				return true;
