@@ -56,7 +56,7 @@ public class BoardUI {
 
 			root.getChildren().addAll(tileGroup); // for placing tiles
 			root.getChildren().addAll(spriteGroup); // for placing pieces
-			displayTile(tileGroup, spriteGroup,title);
+			displayTile(tileGroup, spriteGroup,title, primaryStage, mainScene);
 			
 			// sets scene to be 1280 x 900p
 			Scene scene = new Scene(root, 1280, 900);
@@ -69,11 +69,11 @@ public class BoardUI {
 	}
 
 	// creating the chess tiles and setting them to root on the pane
-	private void displayTile(Group tileGroup, Group spriteGroup, Label title) {
+	private void displayTile(Group tileGroup, Group spriteGroup, Label title, Stage primaryStage, Scene mainScene) {
 		ArrayList<Tiles> tileList = new ArrayList<>();
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				ChessPiece piece = initialboard(x, y);
+				ChessPiece piece = initialboard(x, y, primaryStage, mainScene);
 				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
 				tileList.add(tile);
 				// Displays Image
@@ -156,7 +156,7 @@ public class BoardUI {
 	}
 
 	// Initializes the chess board with each piece in the required positions
-	private ChessPiece initialboard(int x, int y) {
+	private ChessPiece initialboard(int x, int y, Stage primaryStage, Scene mainScene) {
 		ChessPiece piece = null;
 		boolean piecelayer = false;//placing the pieces other than pawns on the board
 		boolean pawnlayer = false;//placing the pawns on the board
@@ -211,15 +211,24 @@ public class BoardUI {
 //			// print file save location
 //		});
 
-		Button exitGame = new Button("Exit to Menu");
-		exitGame.setPrefSize(100, 50);
-		exitGame.setOnAction(event -> ExitConfirm(primaryStage, mainScene));
+		// Exit Button
+		Button exitBtn = new Button("Exit to Menu");
+		exitBtn.setPrefSize(100, 50);
+		exitBtn.setOnAction(event -> ExitConfirm(primaryStage, mainScene));
+		
+		// Restart Button
+		Button restartBtn = new Button ("Restart Game");
+		restartBtn.setPrefSize(100, 50);
+		restartBtn.setOnAction(event -> {
+			new BoardUI(primaryStage, mainScene);
+		});
 
 		// Vbox Adjustments
 		vbox.setPadding(new Insets(10, 10, 10, 10));
 		vbox.setSpacing(20);
 		vbox.setAlignment(Pos.BOTTOM_CENTER);
-		vbox.getChildren().addAll(exitGame);
+		vbox.getChildren().addAll(restartBtn);
+		vbox.getChildren().addAll(exitBtn);
 
 		return vbox;
 	}
