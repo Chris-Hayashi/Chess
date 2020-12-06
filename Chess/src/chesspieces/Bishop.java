@@ -18,7 +18,7 @@ public class Bishop extends ChessPiece {
 		if (getWhite()) {
 			// display white rook
 			try {
-				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/white_bishop.png");
+				stream = new FileInputStream("resources\\Sprites\\white_bishop.png");
 				return stream;
 			} catch (Exception e) {
 				System.out.println(e);
@@ -26,7 +26,7 @@ public class Bishop extends ChessPiece {
 		} else {
 			// display black rook
 			try {
-				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_bishop.png");
+				stream = new FileInputStream("resources\\Sprites\\black_bishop.png");
 				return stream;
 			} catch (Exception e) {
 				System.out.println(e);
@@ -36,7 +36,7 @@ public class Bishop extends ChessPiece {
 	}
 	
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList) {
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
 		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
 			return false;
 		int diagonal = dest_x - getX();

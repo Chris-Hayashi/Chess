@@ -21,7 +21,7 @@ public class Pawn extends ChessPiece {
 		if (getWhite()) {
 			// display white rook
 			try {
-				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/white_pawn.png");
+				stream = new FileInputStream("resources\\Sprites\\white_pawn.png");
 				return stream;
 
 			} catch (Exception e) {
@@ -30,8 +30,8 @@ public class Pawn extends ChessPiece {
 		} else {
 			// display black rook
 			try {
-				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_pawn.png");
-//				stream = new FileInputStream("resources\\Sprites\\black_pawn.png");
+//				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_pawn.png");
+				stream = new FileInputStream("resources\\Sprites\\black_pawn.png");
 				return stream;
 			} catch (Exception e) {
 				System.out.println(e);
@@ -41,7 +41,7 @@ public class Pawn extends ChessPiece {
 	}
 	
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList) {
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tileClicked) {
 		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
 			return false;
 		if(getWhite() == true) {
@@ -50,7 +50,7 @@ public class Pawn extends ChessPiece {
 				setY(dest_y);
 				return true;
 			}
-			else if((dest_y == getY() - 1) && (dest_x == getX())) {
+			else if((dest_y == getY() - 1) && (dest_x == getX() && (tileClicked.getPiece() == null))) {
 					setX(dest_x);
 					setY(dest_y);
 					return true;
@@ -63,7 +63,7 @@ public class Pawn extends ChessPiece {
 				setY(dest_y);
 				return true;
 			}
-			else if((dest_y == getY() + 1) && (dest_x == getX())) {
+			else if((dest_y == getY() + 1) && (dest_x == getX()) && (tileClicked.getPiece() == null)) {
 					setX(dest_x);
 					setY(dest_y);
 					return true;

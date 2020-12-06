@@ -18,7 +18,7 @@ public class King extends ChessPiece {
 		if (getWhite()) {
 			// display white rook
 			try {
-				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/white_king.png");
+				stream = new FileInputStream("resources\\Sprites\\white_king.png");
 				return stream;
 
 			} catch (Exception e) {
@@ -27,7 +27,7 @@ public class King extends ChessPiece {
 		} else {
 			// display black rook
 			try {
-				stream = new FileInputStream("/Users/yasuo/git/Chess/Chess/resources/Sprites/black_king.png");
+				stream = new FileInputStream("resources\\Sprites\\black_king.png");
 				return stream;
 			} catch (Exception e) {
 				System.out.println(e);
@@ -36,7 +36,7 @@ public class King extends ChessPiece {
 		return null;
 	}
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList) { 
+	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) { 
 		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
 			return false;
 		if(dest_x == getX() + 1 || dest_x == getX() || dest_x == getX() - 1){
