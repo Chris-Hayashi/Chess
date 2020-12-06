@@ -59,10 +59,12 @@ public class Pawn extends ChessPiece {
 					setY(dest_y);
 					return true;
 			}
-			else if ((dest_y==getY()-1)&&(Math.abs(dest_x-getX())==1)&&tile.getPiece().getWhite()!=piece.getWhite()) {
-				setX(dest_x);
-				setY(dest_y);
-				return true;
+			else if(tile.getPiece()!=null) {
+				if ((dest_y==getY()-1)&&(Math.abs(dest_x-getX())==1)&&tile.getPiece().getWhite()!=piece.getWhite()) {
+					setX(dest_x);
+					setY(dest_y);
+					return true;
+				}
 			}
 			return false;
 		}
@@ -77,10 +79,12 @@ public class Pawn extends ChessPiece {
 					setY(dest_y);
 					return true;
 			}
-			else if ((dest_y==getY()+1)&&(Math.abs(dest_x-getX())==1)&&tile.getPiece().getWhite()!=piece.getWhite()) {
-				setX(dest_x);
-				setY(dest_y);
-				return true;
+			else if(tile.getPiece()!=null) {
+				if ((dest_y==getY()+1)&&(Math.abs(dest_x-getX())==1)&&tile.getPiece().getWhite()!=piece.getWhite()) {
+					setX(dest_x);
+					setY(dest_y);
+					return true;
+				}
 			}
 			return false;
 		}

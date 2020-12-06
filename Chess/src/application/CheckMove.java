@@ -6,11 +6,11 @@ import chesspieces.ChessPiece;
 
 public abstract class CheckMove {
 	private Boolean valid;
-	private Boolean inCheck;
-
+	private Boolean checkMate;
+	
 	public CheckMove() {
 		valid = false;
-		inCheck = false;
+		checkMate = false;
 	}
 
 //	private Boolean isValid(ChessPiece piece) {
@@ -20,13 +20,12 @@ public abstract class CheckMove {
 
 	public abstract Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile);
 
-	private Boolean inCheck() {
-		return inCheck;
+	public Boolean getCheckMate() {
+		return checkMate;
 	}
 
-	
-
 	public Boolean checkPath(int startX, int startY, int destX, int destY, ArrayList<Tiles> tileList) {
+		
 		int difX = destX - startX;
 		int difY = destY - startY;
 		if (difX != 0) { // left and right
