@@ -1,7 +1,7 @@
 package application;
 
 public class PlayerTurn {
-	private Boolean whiteTurn;
+	private boolean whiteTurn;
 	
 	public PlayerTurn() {
 		this.whiteTurn = true;
@@ -11,7 +11,7 @@ public class PlayerTurn {
 		return this.whiteTurn;
 	}
 	
-	public void setWhiteTurn(Boolean whiteTurn) {
+	public void setWhiteTurn(boolean whiteTurn) {
 		this.whiteTurn = whiteTurn;
 	}
 }

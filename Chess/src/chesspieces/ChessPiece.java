@@ -20,7 +20,7 @@ public abstract class ChessPiece extends CheckMove {
 	}
 	
 	// Get Piece Color
-	public Boolean getWhite() {
+	public boolean getWhite() {
 		return isWhite;
 	}
 	
@@ -44,7 +44,7 @@ public abstract class ChessPiece extends CheckMove {
 		this.current_y = dest_y;
 	}
 	
-	public Boolean countKings(ArrayList<Tiles> tileList) {
+	public boolean countKings(ArrayList<Tiles> tileList) {
 		int counter=0;
 		for (Tiles tile : tileList) {
 			if((tile.getPiece()!=null) && 
@@ -55,7 +55,7 @@ public abstract class ChessPiece extends CheckMove {
 	}
 	
 	// Move Piece
-	public Boolean move(int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
+	public boolean move(int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
 			return isValid(this, dest_x, dest_y, tileList, tile);
 	}
 	public abstract InputStream display();

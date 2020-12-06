@@ -215,7 +215,7 @@ public class BoardUI {
 		// Exit Button
 		Button exitBtn = new Button("Exit to Menu");
 		exitBtn.setPrefSize(100, 50);
-		exitBtn.setOnAction(event -> ExitConfirm(primaryStage, mainScene));
+		exitBtn.setOnAction(event -> exitConfirm(primaryStage, mainScene));
 		
 		// Restart Button
 		Button restartBtn = new Button ("Restart Game");
@@ -235,7 +235,7 @@ public class BoardUI {
 	}
 
 	// Handles Exit Confirmation GUI
-	private void ExitConfirm(Stage primaryStage, Scene mainScene) {
+	private void exitConfirm(Stage primaryStage, Scene mainScene) {
 
 		Stage exitStage = new Stage();
 

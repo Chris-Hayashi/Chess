@@ -8,7 +8,7 @@ import application.Tiles;
 import javafx.scene.Group;
 
 public class Knight extends ChessPiece {
-	public Knight(Boolean isWhite, int x, int y) {
+	public Knight(boolean isWhite, int x, int y) {
 		super(isWhite, x, y);
 	}
 
@@ -36,7 +36,7 @@ public class Knight extends ChessPiece {
 		return null;
 	}
 
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
+	public boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
 		if(tile.getPiece()!=null) {
 			if (piece.getWhite()==tile.getPiece().getWhite()){
 				return false;

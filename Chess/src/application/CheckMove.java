@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import chesspieces.ChessPiece;
 
 public abstract class CheckMove {
-	private Boolean valid;
-	private Boolean checkMate;
+	private boolean valid;
+	private boolean checkMate;
 	
 	public CheckMove() {
 		valid = false;
@@ -18,13 +18,13 @@ public abstract class CheckMove {
 //		return valid;
 //	}
 
-	public abstract Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile);
+	public abstract boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile);
 
 	public Boolean getCheckMate() {
 		return checkMate;
 	}
 
-	public Boolean checkPath(int startX, int startY, int destX, int destY, ArrayList<Tiles> tileList) {
+	public boolean checkPath(int startX, int startY, int destX, int destY, ArrayList<Tiles> tileList) {
 		
 		int difX = destX - startX;
 		int difY = destY - startY;

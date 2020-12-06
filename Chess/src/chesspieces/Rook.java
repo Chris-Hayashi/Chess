@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import application.Tiles;
 
 public class Rook extends ChessPiece {
-	public Rook(Boolean isWhite, int x, int y) {
+	public Rook(boolean isWhite, int x, int y) {
 		super(isWhite, x, y);
 	}
 	
@@ -37,7 +37,7 @@ public class Rook extends ChessPiece {
 	}
 	
 	@Override
-	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
+	public boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
 		if(tile.getPiece()!=null) {
 			if (piece.getWhite()==tile.getPiece().getWhite()){
 				return false;
