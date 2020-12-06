@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import application.Tiles;
-import javafx.scene.Group;
 
 public class King extends ChessPiece {
 	public King(Boolean isWhite, int x, int y) {
@@ -37,13 +36,13 @@ public class King extends ChessPiece {
 	}
 	@Override
 	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) { 
-		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
-			return false;
 		if(tile.getPiece()!=null) {
 			if (piece.getWhite()==tile.getPiece().getWhite()){
 				return false;
 			}
 		}
+		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
+			return false;
 		if(dest_x == getX() + 1 || dest_x == getX() || dest_x == getX() - 1){
 			if(dest_y == getY() + 1 || dest_y == getY() || dest_y == getY() - 1){
 				if(dest_x == getX() && dest_y == getY()){

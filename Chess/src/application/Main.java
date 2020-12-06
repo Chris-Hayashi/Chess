@@ -1,5 +1,7 @@
 package application;
 	
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
@@ -9,6 +11,8 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -28,8 +32,15 @@ public class Main extends Application {
 			// Buttons
 			List<Button> buttons = createButtons();
 			
+			//Image
+			InputStream stream = new FileInputStream("resources\\images\\chess_icon.png");
+			Image image = new Image(stream);
+			ImageView imageView = new ImageView(image);
+			imageView.setFitWidth(500);
+			imageView.setPreserveRatio(true);
+			
 			//Virtual Box
-			VBox vBox = displayVBox(buttons);
+			VBox vBox = displayVBox(buttons,imageView);
 			
 			// Border Pane
 			BorderPane root = setBorderPane(chessLbl, vBox);
@@ -42,7 +53,7 @@ public class Main extends Application {
 			
 			//Event Handlers
 			Button startBtn = buttons.get(0);
-			Button exitBtn = buttons.get(2);
+			Button exitBtn = buttons.get(1);
 			startBtn.setOnAction(event -> {
 				BoardUI boardUI = new BoardUI(primaryStage, mainScene);
 			});
@@ -56,40 +67,42 @@ public class Main extends Application {
 	private List<Button> createButtons() {
 		// Start Button
 		Button startBtn = new Button("Start Game");
-		Button loadBtn = new Button("Load Game");
+//		Button loadBtn = new Button("Load Game");
 		Button exitBtn = new Button("Exit");
 		
 		//Button dimensions
 		startBtn.setPrefSize(300, 75);
-		loadBtn.setPrefSize(300, 75);
+//		loadBtn.setPrefSize(300, 75);
 		exitBtn.setPrefSize(300, 75);
 		
 		//Button Fonts
 		startBtn.setFont(new Font("Arial", 24));
-		loadBtn.setFont(new Font("Arial", 24));
+//		loadBtn.setFont(new Font("Arial", 24));
 		exitBtn.setFont(new Font("Arial", 24));
 		
 		//Button List
 		List<Button> buttons = new ArrayList<Button>();
 		buttons.add(startBtn);
-		buttons.add(loadBtn);
+//		buttons.add(loadBtn);
 		buttons.add(exitBtn);
 		
 		return buttons;
 	}
 	
-	private VBox displayVBox(List<Button> buttons) {
+	private VBox displayVBox(List<Button> buttons,ImageView imageView) {
 		// Create VBox
 		VBox vBox = new VBox();
 		
 		//Add Buttons to VBox
+		vBox.getChildren().add(imageView);
+		
 		for (Button b : buttons) {
 			vBox.getChildren().add(b);
 		}
 		
 		// VBox settings
 		vBox.setAlignment(Pos.CENTER);
-		vBox.setSpacing(20);
+		vBox.setSpacing(30);
 		
 		return vBox;
 	}
@@ -100,7 +113,7 @@ public class Main extends Application {
 		BorderPane root = new BorderPane();
 		
 		//Insets
-		Insets insets = new Insets(100, 100, 100, 100);
+		Insets insets = new Insets(100, 100, 0, 100);
 		
 		// Configure BorderPane
 		root.setTop(lbl);

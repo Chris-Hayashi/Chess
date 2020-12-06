@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import application.Tiles;
-import javafx.scene.Group;
 
 public class Pawn extends ChessPiece {
 	
@@ -42,13 +41,13 @@ public class Pawn extends ChessPiece {
 	
 	@Override
 	public Boolean isValid(ChessPiece piece, int dest_x, int dest_y, ArrayList<Tiles> tileList, Tiles tile) {
-		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
-			return false;
 		if(tile.getPiece()!=null) {
 			if (piece.getWhite()==tile.getPiece().getWhite()){
 				return false;
 			}
 		}
+		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
+			return false;
 		if(getWhite() == true) {
 			if((getY() == 6) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX())){
 				setX(dest_x);
@@ -59,6 +58,11 @@ public class Pawn extends ChessPiece {
 					setX(dest_x);
 					setY(dest_y);
 					return true;
+			}
+			else if ((dest_y==getY()-1)&&(Math.abs(dest_x-getX())==1)&&tile.getPiece().getWhite()!=piece.getWhite()) {
+				setX(dest_x);
+				setY(dest_y);
+				return true;
 			}
 			return false;
 		}
@@ -72,6 +76,11 @@ public class Pawn extends ChessPiece {
 					setX(dest_x);
 					setY(dest_y);
 					return true;
+			}
+			else if ((dest_y==getY()+1)&&(Math.abs(dest_x-getX())==1)&&tile.getPiece().getWhite()!=piece.getWhite()) {
+				setX(dest_x);
+				setY(dest_y);
+				return true;
 			}
 			return false;
 		}

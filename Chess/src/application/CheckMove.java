@@ -3,7 +3,6 @@ package application;
 import java.util.ArrayList;
 
 import chesspieces.ChessPiece;
-import javafx.scene.Group;
 
 public abstract class CheckMove {
 	private Boolean valid;
