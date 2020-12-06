@@ -49,7 +49,7 @@ public class Pawn extends ChessPiece {
 		if (!checkPath(getX(), getY(), dest_x, dest_y, tileList))
 			return false;
 		if(getWhite() == true) {
-			if((getY() == 6) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX())){
+			if((getY() == 6) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX())&& (tile.getPiece() == null)){
 				setX(dest_x);
 				setY(dest_y);
 				return true;
@@ -69,7 +69,7 @@ public class Pawn extends ChessPiece {
 			return false;
 		}
 		else {
-			if((getY() == 1) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX())){
+			if((getY() == 1) && (Math.abs(dest_y - getY()) == 2) && (dest_x == getX()) && (tile.getPiece() == null)){
 				setX(dest_x);
 				setY(dest_y);
 				return true;
