@@ -217,7 +217,6 @@ public class BoardUI {
 
 	// Handles Exit Confirmation GUI
 	private void exitConfirm(Stage primaryStage, Scene mainScene) {
-
 		Stage exitStage = new Stage();
 
 		Label lbl = new Label("Are you sure you want to exit?");
