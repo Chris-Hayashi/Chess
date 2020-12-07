@@ -62,7 +62,6 @@ public class BoardUI {
 			e.printStackTrace();
 		}
 	}
-
 	// creating the chess tiles and setting them to root on the pane
 	private void displayTile(Group tileGroup, Group spriteGroup, Label title) {
 		ArrayList<Tiles> tileList = new ArrayList<>();
