@@ -51,7 +51,7 @@ public class BoardUI {
 
 			root.getChildren().addAll(tileGroup); // for placing tiles
 			root.getChildren().addAll(spriteGroup); // for placing pieces
-			displayTile(tileGroup, spriteGroup, title, primaryStage, mainScene);
+			displayTile(tileGroup, spriteGroup, title);
 
 			// sets scene to be 1280 x 900p
 			Scene scene = new Scene(root, 1280, 900);
@@ -62,14 +62,13 @@ public class BoardUI {
 			e.printStackTrace();
 		}
 	}
-
 	// creating the chess tiles and setting them to root on the pane
-	private void displayTile(Group tileGroup, Group spriteGroup, Label title, Stage primaryStage, Scene mainScene) {
+	private void displayTile(Group tileGroup, Group spriteGroup, Label title) {
 		ArrayList<Tiles> tileList = new ArrayList<>();
 		PlayerTurn playerTurn = new PlayerTurn();
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				ChessPiece piece = initialBoard(x, y, primaryStage, mainScene);
+				ChessPiece piece = initialBoard(x, y);
 				Tiles tile = new Tiles((x + y) % 2 == 0, x, y, piece);
 				tileList.add(tile);
 				// Displays Image
@@ -148,7 +147,7 @@ public class BoardUI {
 	}
 
 	// Initializes the chess board with each piece in the required positions
-	private ChessPiece initialBoard(int x, int y, Stage primaryStage, Scene mainScene) {
+	private ChessPiece initialBoard(int x, int y) {
 		ChessPiece piece = null;
 		boolean piecelayer = false;// placing the pieces other than pawns on the board
 		boolean pawnlayer = false;// placing the pawns on the board
@@ -217,7 +216,6 @@ public class BoardUI {
 
 	// Handles Exit Confirmation GUI
 	private void exitConfirm(Stage primaryStage, Scene mainScene) {
-
 		Stage exitStage = new Stage();
 
 		Label lbl = new Label("Are you sure you want to exit?");
